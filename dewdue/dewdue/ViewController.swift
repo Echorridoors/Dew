@@ -12,7 +12,6 @@ class ViewController: UIViewController {
                             
 	@IBOutlet var timeTargetLabel: UILabel!
 	@IBOutlet var timeTouchView: UIView!
-	@IBOutlet var timeTouchLocationView: UIView!
 	
 	var tileSize:CGFloat = 0.0
 	
@@ -53,7 +52,10 @@ class ViewController: UIViewController {
 			if minuVal > 59 { minuVal = 59 }
 			
 			timeTargetLabel.text = "\(hourVal):\(minuVal)"
+			
+			NSLog("%@", NSDate(timeIntervalSinceNow: NSTimeInterval(hourVal*60*60) ) )
 		}
+		
 		
 	}
 	
@@ -82,7 +84,6 @@ class ViewController: UIViewController {
 		let screenWidth = self.view.frame.width
 		let screenHeight = self.view.frame.height
 		timeTouchView.frame = CGRectMake(tileSize, tileSize, screenWidth-(2*tileSize), screenHeight-(2*tileSize))
-		timeTouchView.backgroundColor = UIColor.redColor()
 	}
 	
 	
