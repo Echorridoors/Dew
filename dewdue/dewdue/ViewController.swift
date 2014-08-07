@@ -37,36 +37,20 @@ class ViewController: UIViewController {
 
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
 	}
 	
 	func drawViews()
 	{
-//		for view in gridView.subviews {
-//			view.removeFromSuperview()
-//		}
-		
 		var i = 0
 		while i < 24*4
 		{
 			var lineView = UIView(frame: CGRectMake(0, (templateLineSpacing * CGFloat(i)), screenWidth-(2*tileSize)+1, 1))
 			
 			if i % 4 == 0 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")) }
-			else if i % 4 == 2 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.2.png")) }
-			else { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.3.png")) }
-			
+			else if i % 4 == 2 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")).colorWithAlphaComponent(0.5) }
+			else { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")).colorWithAlphaComponent(0.25) }
 			
 			self.gridView.addSubview(lineView)
-			
-			/*
-			var labelView = UILabel(frame: CGRectMake(tileSize-40, tileSize + spacing * CGFloat(i)-4, 30, 10))
-			labelView.text = "\(23-i)"
-			labelView.font = UIFont(name:"helvetica",size:10)
-			labelView.textColor = UIColor.whiteColor()
-			labelView.textAlignment = NSTextAlignment.Right
-			self.gridView.addSubview(labelView)
-			*/
-			
 			
 			i = i + 1
 		}
@@ -74,9 +58,6 @@ class ViewController: UIViewController {
 		var lineView = UIView(frame: CGRectMake(0, (templateLineSpacing * CGFloat(24*4)), screenWidth-(2*tileSize)+1, 1))
 		lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png"))
 		self.gridView.addSubview(lineView)
-		
-		
-		
 	}
 	
 	override func touchesBegan(touches: NSSet!, withEvent event: UIEvent!) {
@@ -171,8 +152,14 @@ class ViewController: UIViewController {
 			someTest = someTest + (timeNow.minute)
 			someTest = someTest / 15
 	
+			
+			var offset = 1
+			if timeNow.minute > 45 { offset = 4 }
+			else if timeNow.minute > 30 { offset = 3 }
+			else if timeNow.minute > 15 { offset = 2 }
+			
 			var i = 0
-			while i < someTest-3
+			while i < someTest-offset
 			{
 				var lineView = UIView(frame: CGRectMake(0.0, pointNow.frame.origin.y - ( (CGFloat(i) + 1) * templateLineSpacing), screenWidth-(2*tileSize), 1))
 				
