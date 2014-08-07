@@ -21,7 +21,7 @@ class ViewController: UIViewController {
 	var screenWidth:CGFloat = 0.0
 	var screenHeight:CGFloat = 0.0
 	
-	var templateLineSpacing:CGFloat = 0.0
+	var templateLineSpacing:CGFloat = 5.0
 	
 	var touchStart:CGFloat = 0.0
 	var incrementMinutes = 0
@@ -45,8 +45,6 @@ class ViewController: UIViewController {
 //		for view in gridView.subviews {
 //			view.removeFromSuperview()
 //		}
-		
-		templateLineSpacing = 5
 		
 		var i = 0
 		while i < 24*4
@@ -79,7 +77,7 @@ class ViewController: UIViewController {
 	override func touchesBegan(touches: NSSet!, withEvent event: UIEvent!) {
 		
 		for touch: AnyObject in touches {
-			let location = touch.locationInView(self.view)
+			let location = touch.locationInView(gridView)
 			touchStart = location.y
 			NSLog("> START | %@", location.y)
 		}
@@ -91,10 +89,11 @@ class ViewController: UIViewController {
 		for touch: AnyObject in touches {
 			
 			let location = touch.locationInView(gridView)
-
-			incrementMinutes += touchStart - location.y
 			
-			//
+			if touchStart > location.y { incrementMinutes += 30 }
+			else{ incrementMinutes += -30 }
+			
+			// Setup
 			
 			let date = NSDate()
 			
@@ -108,10 +107,63 @@ class ViewController: UIViewController {
 			let futureDate = dateFormatter.stringFromDate( dateFuture )
 			let timeThen = calendar.components(.CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond , fromDate: dateFuture)
 			
-			//
+			timeTargetLabel.text = "\(timeThen.hour):\(timeThen.minute)"
+			
+			// Draw Then
+			
+			var targetMinutes = (timeThen.hour * 60) + timeThen.minute
+			var targetHoursFloat = Float(targetMinutes)/60
+			var posTest = (24-CGFloat(timeThen.hour)) * templateLineSpacing * 4
+	
+			if timeThen.minute > 45 { posTest -= templateLineSpacing * 3  }
+			else if timeThen.minute > 30 { posTest -= templateLineSpacing * 2  }
+			else if timeThen.minute > 15 { posTest -= templateLineSpacing * 1  }
+			
+			var posWidth = CGFloat(UInt(timeThen.minute) % 15)/15 * (screenWidth-(2 * tileSize))
+			pointTarget.frame = CGRectMake(0, posTest, posWidth, 1)
+			
+			// Draw Now
+			
+			targetMinutes = (timeNow.hour * 60) + timeNow.minute
+			targetHoursFloat = Float(targetMinutes)/60
+			posTest = (24-CGFloat(timeNow.hour)) * templateLineSpacing * 4
+			
+			if timeNow.minute > 45 { posTest -= templateLineSpacing * 3  }
+			else if timeNow.minute > 30 { posTest -= templateLineSpacing * 2  }
+			else if timeNow.minute > 15 { posTest -= templateLineSpacing * 1  }
+	
+			posWidth = CGFloat(UInt(timeNow.minute) % 15)/15 * (screenWidth-(2 * tileSize))
+			pointNow.frame = CGRectMake(posWidth, posTest, gridView.frame.size.width-posWidth, 1)
+			
+			// Erase Old Inbetweens
+			
+			for view in gridView.subviews {
+				if view.tag != 100 { continue }
+				view.removeFromSuperview()
+			}
+
+			// Draw Inbetweens
+			
+			var bars = ( (incrementMinutes / 60) - ( (incrementMinutes / 60) % 15 ) )/15
+			
+			var i = 0
+			while i < bars
+			{
+				var lineView = UIView(frame: CGRectMake(0.0, pointNow.frame.origin.y - (CGFloat(i) * templateLineSpacing), screenWidth-(2*tileSize), 1))
+				
+				if i % 4 == 0 { lineView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5) }
+				else { lineView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.25) }
+				
+				self.gridView.addSubview(lineView)
+				
+				i = i + 1
+			}
+
 			
 			
-			NSLog("%@ FUTURE:%d:%d",touchStart - location.y, timeThen.hour, timeThen.minute)
+//			var nowPos = targetMinutes
+//			pointNow.frame = CGRectMake(0,nowPos , 10, 1)
+			
 		}
 	}
 	
@@ -143,9 +195,9 @@ class ViewController: UIViewController {
 		timeTouchView.frame = CGRectMake(tileSize, tileSize, screenWidth-(2*tileSize), screenHeight-(2*tileSize))
 		
 		pointNow.frame = CGRectMake(0, 0, 10, 10)
-		pointNow.backgroundColor = UIColor.redColor()
-		pointTarget.frame = CGRectMake(0, 0, 10, 10)
-		pointTarget.backgroundColor = UIColor.blueColor()
+		pointNow.backgroundColor = UIColor.whiteColor()
+		pointTarget.frame = CGRectMake(0, 0, 1, 1)
+		pointTarget.backgroundColor = UIColor.whiteColor()
 		
 		gridView.frame = CGRectMake(tileSize, tileSize, screenWidth - (2 * tileSize), screenHeight - (2 * tileSize) )
 	}
