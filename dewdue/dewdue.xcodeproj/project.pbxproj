@@ -12,6 +12,9 @@
 		03AFB3771992A84300A4B773 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03AFB3751992A84300A4B773 /* Main.storyboard */; };
 		03AFB3791992A84300A4B773 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03AFB3781992A84300A4B773 /* Images.xcassets */; };
 		03AFB3851992A84300A4B773 /* dewdueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03AFB3841992A84300A4B773 /* dewdueTests.swift */; };
+		03B968F319940BCE007007E5 /* tile.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 03B968F219940BCE007007E5 /* tile.1.png */; };
+		03B968F519940C27007007E5 /* tile.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 03B968F419940C27007007E5 /* tile.2.png */; };
+		03B968F719940CDE007007E5 /* tile.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 03B968F619940CDE007007E5 /* tile.3.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +37,9 @@
 		03AFB37E1992A84300A4B773 /* dewdueTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = dewdueTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		03AFB3831992A84300A4B773 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03AFB3841992A84300A4B773 /* dewdueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dewdueTests.swift; sourceTree = "<group>"; };
+		03B968F219940BCE007007E5 /* tile.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tile.1.png; sourceTree = "<group>"; };
+		03B968F419940C27007007E5 /* tile.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tile.2.png; sourceTree = "<group>"; };
+		03B968F619940CDE007007E5 /* tile.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tile.3.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +81,9 @@
 		03AFB36E1992A84300A4B773 /* dewdue */ = {
 			isa = PBXGroup;
 			children = (
+				03B968F619940CDE007007E5 /* tile.3.png */,
+				03B968F419940C27007007E5 /* tile.2.png */,
+				03B968F219940BCE007007E5 /* tile.1.png */,
 				03AFB3711992A84300A4B773 /* AppDelegate.swift */,
 				03AFB3731992A84300A4B773 /* ViewController.swift */,
 				03AFB3751992A84300A4B773 /* Main.storyboard */,
@@ -189,8 +198,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03B968F319940BCE007007E5 /* tile.1.png in Resources */,
 				03AFB3771992A84300A4B773 /* Main.storyboard in Resources */,
 				03AFB3791992A84300A4B773 /* Images.xcassets in Resources */,
+				03B968F719940CDE007007E5 /* tile.3.png in Resources */,
+				03B968F519940C27007007E5 /* tile.2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,6 +407,7 @@
 				03AFB38A1992A84300A4B773 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		03AFB38B1992A84300A4B773 /* Build configuration list for PBXNativeTarget "dewdueTests" */ = {
 			isa = XCConfigurationList;
@@ -403,6 +416,7 @@
 				03AFB38D1992A84300A4B773 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

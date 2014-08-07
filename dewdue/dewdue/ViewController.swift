@@ -49,12 +49,12 @@ class ViewController: UIViewController {
 		var i = 0
 		while i < 24*4
 		{
-			var lineView = UIView(frame: CGRectMake(0, (templateLineSpacing * CGFloat(i)), screenWidth-(2*tileSize), 1))
+			var lineView = UIView(frame: CGRectMake(0, (templateLineSpacing * CGFloat(i)), screenWidth-(2*tileSize)+1, 1))
 			
-			if i % 4 == 0 { lineView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5) }
-			else { lineView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.25) }
-	
-		
+			if i % 4 == 0 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")) }
+			else if i % 4 == 2 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.2.png")) }
+			else { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.3.png")) }
+			
 			
 			self.gridView.addSubview(lineView)
 			
@@ -70,6 +70,11 @@ class ViewController: UIViewController {
 			
 			i = i + 1
 		}
+		
+		var lineView = UIView(frame: CGRectMake(0, (templateLineSpacing * CGFloat(24*4)), screenWidth-(2*tileSize)+1, 1))
+		lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png"))
+		self.gridView.addSubview(lineView)
+		
 		
 		
 	}
@@ -167,7 +172,7 @@ class ViewController: UIViewController {
 			someTest = someTest / 15
 	
 			var i = 0
-			while i < someTest-1
+			while i < someTest-3
 			{
 				var lineView = UIView(frame: CGRectMake(0.0, pointNow.frame.origin.y - ( (CGFloat(i) + 1) * templateLineSpacing), screenWidth-(2*tileSize), 1))
 				
@@ -209,9 +214,9 @@ class ViewController: UIViewController {
 		timeTouchView.frame = CGRectMake(tileSize, tileSize, screenWidth-(2*tileSize), screenHeight-(2*tileSize))
 		
 		pointNow.frame = CGRectMake(0, 0, 10, 10)
-		pointNow.backgroundColor = UIColor.yellowColor()
+		pointNow.backgroundColor = UIColor.whiteColor()
 		pointTarget.frame = CGRectMake(0, 0, 1, 1)
-		pointTarget.backgroundColor = UIColor.redColor()
+		pointTarget.backgroundColor = UIColor.whiteColor()
 		
 		gridView.frame = CGRectMake(tileSize, tileSize, screenWidth - (2 * tileSize), screenHeight - (2 * tileSize) )
 	}
