@@ -15,18 +15,40 @@ class ViewController: UIViewController {
 	@IBOutlet var timeTouchView: UIView!
 	
 	var tileSize:CGFloat = 0.0
+	var screenWidth:CGFloat = 0.0
+	var screenHeight:CGFloat = 0.0
 	
 	override func viewDidLoad() {
 		
 		super.viewDidLoad()
 		template()
 		alarmSetup()
+		drawViews()
 		
 	}
 
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
+	}
+	
+	func drawViews()
+	{
+		
+		let test = self.view.frame.height-(2*tileSize)
+		
+		let spacing = CGFloat(Int(test/24))
+		
+		var i = 0
+		while i < 24
+		{
+			var label = UIView(frame: CGRectMake(tileSize, tileSize + spacing * CGFloat(i), screenWidth-(2*tileSize), 1))
+			label.backgroundColor = UIColor.redColor()
+			self.view.addSubview(label)
+			i = i + 1
+		}
+		
+		
 	}
 	
 	override func touchesBegan(touches: NSSet!, withEvent event: UIEvent!) {
@@ -52,28 +74,35 @@ class ViewController: UIViewController {
 			var minuVal = 60-Int(minuPerc*60)
 			if minuVal > 59 { minuVal = 59 }
 			
-			timeTargetLabel.text = "\(hourVal):\(minuVal)"
+			// Mess
 			
 			let date = NSDate()
+			
 			let calendar = NSCalendar.currentCalendar()
-			let timeNow = calendar.components(.CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond , fromDate: date)
-			
 			let dateFormatter = NSDateFormatter()
-			dateFormatter.timeStyle = NSDateFormatterStyle.MediumStyle //Set time style
-			dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle //Set date style
 			dateFormatter.timeZone = NSTimeZone()
-			let localDate = dateFormatter.stringFromDate(date)
 			
-			
+			let timeNow = calendar.components(.CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond , fromDate: date)
 			
 			let dateFuture = NSDate(timeIntervalSinceNow: NSTimeInterval(hourVal*60*60) )
 			let futureDate = dateFormatter.stringFromDate( dateFuture )
 			let timeThen = calendar.components(.CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond , fromDate: dateFuture)
 			
+			var difference = 0
 			
+			if timeNow.hour-timeThen.hour < 1
+			{
+				difference = (timeNow.hour-timeThen.hour) * -1
+			}else
+			{
+				difference = 24-(timeNow.hour-timeThen.hour)
+			}
 			
+			NSLog("NOW:%d:%d:%d TARGET:%d:%d:%d DIFF:%d",timeNow.hour,timeNow.minute, timeNow.second, timeThen.hour, timeThen.minute, timeThen.second, difference )
 			
-			NSLog("NOW:%d:%d:%d TARGET:%d:%d:%d",timeNow.hour,timeNow.minute, timeNow.second, timeThen.hour, timeThen.minute, timeThen.second)
+			// Print
+			
+			timeTargetLabel.text = "\(timeThen.hour):\(timeThen.minute)"
 			
 		}
 		
@@ -101,8 +130,8 @@ class ViewController: UIViewController {
 	func template()
 	{
 		tileSize = self.view.frame.width/8
-		let screenWidth = self.view.frame.width
-		let screenHeight = self.view.frame.height
+		screenWidth = self.view.frame.width
+		screenHeight = self.view.frame.height
 		timeTouchView.frame = CGRectMake(tileSize, tileSize, screenWidth-(2*tileSize), screenHeight-(2*tileSize))
 	}
 	
