@@ -12,6 +12,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" id="DRJ-s5-Tca" userLabel="gridView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" id="lIc-zr-1dq" userLabel="pointNow">
+                                        <rect key="frame" x="80" y="142" width="160" height="284"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" id="2Ei-mh-OTu" userLabel="pointTarget">
+                                        <rect key="frame" x="80" y="142" width="160" height="284"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                            </view>
                             <view contentMode="scaleToFill" id="Gvg-FW-lF5" userLabel="timeTouchView">
                                 <rect key="frame" x="80" y="142" width="160" height="284"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -27,6 +43,9 @@
                         <color key="backgroundColor" red="0.21007424033149169" green="0.21007424033149169" blue="0.21007424033149169" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <connections>
+                        <outlet property="gridView" destination="DRJ-s5-Tca" id="reh-AE-rsC"/>
+                        <outlet property="pointNow" destination="lIc-zr-1dq" id="h5V-Kh-ply"/>
+                        <outlet property="pointTarget" destination="2Ei-mh-OTu" id="OGO-42-sf8"/>
                         <outlet property="timeTargetLabel" destination="kQY-g2-O6i" id="XZ3-Fp-qw8"/>
                         <outlet property="timeTouchView" destination="Gvg-FW-lF5" id="qYo-r3-KlJ"/>
                     </connections>
