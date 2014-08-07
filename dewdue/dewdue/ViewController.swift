@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 class ViewController: UIViewController {
                             
@@ -53,9 +54,28 @@ class ViewController: UIViewController {
 			
 			timeTargetLabel.text = "\(hourVal):\(minuVal)"
 			
-			NSLog("%@", NSDate(timeIntervalSinceNow: NSTimeInterval(hourVal*60*60) ) )
+			let date = NSDate()
+			let calendar = NSCalendar.currentCalendar()
+			let timeNow = calendar.components(.CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond , fromDate: date)
+			
+			let dateFormatter = NSDateFormatter()
+			dateFormatter.timeStyle = NSDateFormatterStyle.MediumStyle //Set time style
+			dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle //Set date style
+			dateFormatter.timeZone = NSTimeZone()
+			let localDate = dateFormatter.stringFromDate(date)
+			
+			
+			
+			let dateFuture = NSDate(timeIntervalSinceNow: NSTimeInterval(hourVal*60*60) )
+			let futureDate = dateFormatter.stringFromDate( dateFuture )
+			let timeThen = calendar.components(.CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond , fromDate: dateFuture)
+			
+			
+			
+			
+			NSLog("NOW:%d:%d:%d TARGET:%d:%d:%d",timeNow.hour,timeNow.minute, timeNow.second, timeThen.hour, timeThen.minute, timeThen.second)
+			
 		}
-		
 		
 	}
 	
