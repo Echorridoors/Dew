@@ -46,9 +46,9 @@ class ViewController: UIViewController {
 		{
 			var lineView = UIView(frame: CGRectMake(0, (templateLineSpacing * CGFloat(i)), screenWidth-(2*tileSize)+1, 1))
 			
-			if i % 4 == 0 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")) }
+			if i % 4 == 0 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")).colorWithAlphaComponent(0.5) }
 			else if i % 4 == 2 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")).colorWithAlphaComponent(0.5) }
-			else { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")).colorWithAlphaComponent(0.25) }
+			else { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.2.png")).colorWithAlphaComponent(0.5) }
 			
 			self.gridView.addSubview(lineView)
 			
@@ -76,8 +76,13 @@ class ViewController: UIViewController {
 			
 			let location = touch.locationInView(gridView)
 			
-			if touchStart > location.y { incrementMinutes += 30 }
-			else{ incrementMinutes += -30 }
+			var incrementStep = 120
+			
+			if abs(touchStart - location.y) > 200 { incrementStep = 240 }
+			if abs(touchStart - location.y) > 300 { incrementStep = 480 }
+			
+			if touchStart > location.y { incrementMinutes += incrementStep }
+			else{ incrementMinutes += -incrementStep }
 			
 			if incrementMinutes < 0 {
 				incrementMinutes = 0
@@ -161,7 +166,16 @@ class ViewController: UIViewController {
 			var i = 0
 			while i < someTest-offset
 			{
-				var lineView = UIView(frame: CGRectMake(0.0, pointNow.frame.origin.y - ( (CGFloat(i) + 1) * templateLineSpacing), screenWidth-(2*tileSize), 1))
+				let positionY = pointNow.frame.origin.y - ( (CGFloat(i) + 1) * templateLineSpacing)
+				var lineView = UIView(frame: CGRectMake(0.0, positionY, screenWidth-(2*tileSize), 1))
+				
+				if lineView.frame.origin.y < 0 {
+					
+					lineView.frame = CGRectMake(0.0, positionY+(24*4*templateLineSpacing), screenWidth-(2*tileSize), 1)
+					
+				}
+				
+				
 				
 				lineView.backgroundColor = UIColor.whiteColor()
 				lineView.tag = 100
@@ -171,6 +185,14 @@ class ViewController: UIViewController {
 				i = i + 1
 			}
 		}
+	}
+	
+	func lineYFromHour(hour:Int, minute:Int) -> CGFloat
+	{
+		var gridHeight:CGFloat = gridView.frame.height
+		var lineY = (24-CGFloat(hour)) * templateLineSpacing * 4
+		
+		return lineY
 	}
 	
 	
