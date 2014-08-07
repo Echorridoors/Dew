@@ -93,6 +93,11 @@ class ViewController: UIViewController {
 			if touchStart > location.y { incrementMinutes += 30 }
 			else{ incrementMinutes += -30 }
 			
+			if incrementMinutes < 0 {
+				incrementMinutes = 0
+				continue
+			}
+			
 			// Setup
 			
 			let date = NSDate()
@@ -133,7 +138,20 @@ class ViewController: UIViewController {
 			else if timeNow.minute > 15 { posTest -= templateLineSpacing * 1  }
 	
 			posWidth = CGFloat(UInt(timeNow.minute) % 15)/15 * (screenWidth-(2 * tileSize))
-			pointNow.frame = CGRectMake(posWidth, posTest, gridView.frame.size.width-posWidth, 1)
+			
+			// Early
+			if pointNow.frame.origin.y == pointTarget.frame.origin.y
+			{
+				var testSomething = ((incrementMinutes/60) % 15)
+				testSomething = testSomething * ( (screenWidth-(2 * tileSize)) / 15)
+				
+				pointNow.frame = CGRectMake(posWidth, posTest, CGFloat(testSomething), 1)
+				pointTarget.hidden = 1
+			}
+			else{
+				pointNow.frame = CGRectMake(posWidth, posTest, gridView.frame.size.width-posWidth, 1)
+				pointTarget.hidden = 0
+			}
 			
 			// Erase Old Inbetweens
 			
@@ -144,26 +162,22 @@ class ViewController: UIViewController {
 
 			// Draw Inbetweens
 			
-			var bars = ( (incrementMinutes / 60) - ( (incrementMinutes / 60) % 15 ) )/15
-			
+			var someTest = incrementMinutes / 60
+			someTest = someTest + (timeNow.minute)
+			someTest = someTest / 15
+	
 			var i = 0
-			while i < bars
+			while i < someTest-1
 			{
-				var lineView = UIView(frame: CGRectMake(0.0, pointNow.frame.origin.y - (CGFloat(i) * templateLineSpacing), screenWidth-(2*tileSize), 1))
+				var lineView = UIView(frame: CGRectMake(0.0, pointNow.frame.origin.y - ( (CGFloat(i) + 1) * templateLineSpacing), screenWidth-(2*tileSize), 1))
 				
-				if i % 4 == 0 { lineView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5) }
-				else { lineView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.25) }
+				lineView.backgroundColor = UIColor.whiteColor()
+				lineView.tag = 100
 				
 				self.gridView.addSubview(lineView)
 				
 				i = i + 1
 			}
-
-			
-			
-//			var nowPos = targetMinutes
-//			pointNow.frame = CGRectMake(0,nowPos , 10, 1)
-			
 		}
 	}
 	
@@ -195,9 +209,9 @@ class ViewController: UIViewController {
 		timeTouchView.frame = CGRectMake(tileSize, tileSize, screenWidth-(2*tileSize), screenHeight-(2*tileSize))
 		
 		pointNow.frame = CGRectMake(0, 0, 10, 10)
-		pointNow.backgroundColor = UIColor.whiteColor()
+		pointNow.backgroundColor = UIColor.yellowColor()
 		pointTarget.frame = CGRectMake(0, 0, 1, 1)
-		pointTarget.backgroundColor = UIColor.whiteColor()
+		pointTarget.backgroundColor = UIColor.redColor()
 		
 		gridView.frame = CGRectMake(tileSize, tileSize, screenWidth - (2 * tileSize), screenHeight - (2 * tileSize) )
 	}
@@ -205,77 +219,6 @@ class ViewController: UIViewController {
 	override func prefersStatusBarHidden() -> Bool {
 		return true
 	}
-	
-	// Old
-	
-	/*
-	override func touchesMoved(touches: NSSet!, withEvent event: UIEvent!) {
-		
-		for touch: AnyObject in touches {
-			let location = touch.locationInView(self.view)
-			
-			let hourPerc = touchValuePerc( Float(location.y)-Float(tileSize), maxVal: Float(self.timeTouchView.frame.height) )
-			let minuPerc = touchValuePerc( Float(location.x)-Float(tileSize), maxVal: Float(self.timeTouchView.frame.width) )
-			
-			var hourVal = Int(hourPerc*24)
-			if hourVal > 23 { hourVal = 23 }
-			
-			var minuVal = 60-Int(minuPerc*60)
-			if minuVal > 59 { minuVal = 59 }
-			
-			// Mess
-			
-			let date = NSDate()
-			
-			let calendar = NSCalendar.currentCalendar()
-			let dateFormatter = NSDateFormatter()
-			dateFormatter.timeZone = NSTimeZone()
-			
-			let timeNow = calendar.components(.CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond , fromDate: date)
-			
-			let dateFuture = NSDate(timeIntervalSinceNow: NSTimeInterval(hourVal*60*60) )
-			let futureDate = dateFormatter.stringFromDate( dateFuture )
-			let timeThen = calendar.components(.CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond , fromDate: dateFuture)
-			
-			var difference = 0
-			
-			if timeNow.hour-timeThen.hour < 1
-			{
-				difference = (timeNow.hour-timeThen.hour) * -1
-			}else
-			{
-				difference = 24-(timeNow.hour-timeThen.hour)
-			}
-			
-			NSLog("NOW:%d:%d:%d TARGET:%d:%d:%d DIFF:%d",timeNow.hour,timeNow.minute, timeNow.second, timeThen.hour, timeThen.minute, timeThen.second, difference )
-			
-			// Print
-			
-			timeTargetLabel.text = "\(timeThen.hour):\(timeThen.minute)"
-			
-			// Position now
-			
-			let pos = CGFloat(difference) * -1
-			let posY = pos * templateLineSpacing
-			
-			
-			pointNow.frame = CGRectMake(0, posY+(templateLineSpacing*24), 5, 5)
-			
-		}
-		
-	}
-	
-	*/
-	
-//	- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-//	{
-//	UITouch *theTouch = [touches anyObject];
-//	_startPoint = [theTouch locationInView:self.view];
-//	CGFloat x = _startPoint.x;
-//	CGFloat y = _startPoint.y;
-//	_xCoord.text = [NSString stringWithFormat:@"%f", x];
-//	_yCoord.text = [NSString stringWithFormat:@"%f", y];
-
 
 }
 
