@@ -11,6 +11,7 @@ import Foundation
 
 class ViewController: UIViewController {
                             
+	@IBOutlet var timeLeftLabel: UILabel!
 	@IBOutlet var timeTargetLabel: UILabel!
 	@IBOutlet var timeTouchView: UIView!
 	@IBOutlet var gridView: UIView!
@@ -26,20 +27,59 @@ class ViewController: UIViewController {
 	var touchStart:CGFloat = 0.0
 	var incrementMinutes = 0
 	
-	override func viewDidLoad() {
-		
+	// MARK: - Init
+	
+	override func viewDidLoad()
+	{
 		super.viewDidLoad()
-		template()
-		alarmSetup()
-		drawViews()
+		
+		templateStart()
+		timeStart()
+		
+//		alarmSetup()
 		
 	}
 
-	override func didReceiveMemoryWarning() {
+	override func didReceiveMemoryWarning()
+	{
 		super.didReceiveMemoryWarning()
 	}
 	
-	func drawViews()
+	// MARK: - Time
+	
+	func timeStart()
+	{
+		var timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("timeStep"), userInfo: nil, repeats: true)
+	}
+	
+	func timeStep()
+	{
+		NSLog("!!")
+	}
+	
+	// MARK: - Template
+	
+	func templateStart()
+	{
+		tileSize = self.view.frame.width/8
+		screenWidth = self.view.frame.width
+		screenHeight = self.view.frame.height
+		timeTouchView.frame = CGRectMake(tileSize, tileSize, screenWidth-(2*tileSize), screenHeight-(2*tileSize))
+		
+		pointNow.frame = CGRectMake(0, 0, 10, 10)
+		pointNow.backgroundColor = UIColor.whiteColor()
+		pointTarget.frame = CGRectMake(0, 0, 1, 1)
+		pointTarget.backgroundColor = UIColor.whiteColor()
+		
+		gridView.frame = CGRectMake(tileSize, tileSize, screenWidth - (2 * tileSize), screenHeight - (2 * tileSize) )
+		
+		timeLeftLabel.frame = CGRectMake(tileSize, screenHeight-tileSize, screenWidth-(2*tileSize), tileSize)
+		timeTargetLabel.frame = CGRectMake(tileSize, screenHeight-tileSize, screenWidth-(2*tileSize), tileSize)
+		
+		templateGrid()
+	}
+	
+	func templateGrid()
 	{
 		var i = 0
 		while i < 24*4
@@ -48,7 +88,7 @@ class ViewController: UIViewController {
 			
 			if i % 4 == 0 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")).colorWithAlphaComponent(0.5) }
 			else if i % 4 == 2 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")).colorWithAlphaComponent(0.5) }
-			else { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.2.png")).colorWithAlphaComponent(0.5) }
+			else { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")).colorWithAlphaComponent(0.5) }
 			
 			self.gridView.addSubview(lineView)
 			
@@ -56,9 +96,11 @@ class ViewController: UIViewController {
 		}
 		
 		var lineView = UIView(frame: CGRectMake(0, (templateLineSpacing * CGFloat(24*4)), screenWidth-(2*tileSize)+1, 1))
-		lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png"))
+		lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")).colorWithAlphaComponent(0.5)
 		self.gridView.addSubview(lineView)
 	}
+	
+	// MARK: - Touch
 	
 	override func touchesBegan(touches: NSSet!, withEvent event: UIEvent!) {
 		
@@ -76,10 +118,12 @@ class ViewController: UIViewController {
 			
 			let location = touch.locationInView(gridView)
 			
-			var incrementStep = 120
+			var incrementStep = 30
 			
-			if abs(touchStart - location.y) > 200 { incrementStep = 240 }
-			if abs(touchStart - location.y) > 300 { incrementStep = 480 }
+			if abs(touchStart - location.y) < 100 { incrementStep = 60 }
+			else if abs(touchStart - location.y) < 200 { incrementStep = 120 }
+			else if abs(touchStart - location.y) < 300 { incrementStep = 240 }
+			else if abs(touchStart - location.y) < 400 { incrementStep = 480 }
 			
 			if touchStart > location.y { incrementMinutes += incrementStep }
 			else{ incrementMinutes += -incrementStep }
@@ -175,8 +219,6 @@ class ViewController: UIViewController {
 					
 				}
 				
-				
-				
 				lineView.backgroundColor = UIColor.whiteColor()
 				lineView.tag = 100
 				
@@ -185,14 +227,6 @@ class ViewController: UIViewController {
 				i = i + 1
 			}
 		}
-	}
-	
-	func lineYFromHour(hour:Int, minute:Int) -> CGFloat
-	{
-		var gridHeight:CGFloat = gridView.frame.height
-		var lineY = (24-CGFloat(hour)) * templateLineSpacing * 4
-		
-		return lineY
 	}
 	
 	
@@ -206,6 +240,8 @@ class ViewController: UIViewController {
 		return 1-posValue
 	}
 	
+	// MARK: - Alarm
+	
 	func alarmSetup()
 	{
 		var localNotification:UILocalNotification = UILocalNotification()
@@ -215,20 +251,7 @@ class ViewController: UIViewController {
 		UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
 	}
 	
-	func template()
-	{
-		tileSize = self.view.frame.width/8
-		screenWidth = self.view.frame.width
-		screenHeight = self.view.frame.height
-		timeTouchView.frame = CGRectMake(tileSize, tileSize, screenWidth-(2*tileSize), screenHeight-(2*tileSize))
-		
-		pointNow.frame = CGRectMake(0, 0, 10, 10)
-		pointNow.backgroundColor = UIColor.whiteColor()
-		pointTarget.frame = CGRectMake(0, 0, 1, 1)
-		pointTarget.backgroundColor = UIColor.whiteColor()
-		
-		gridView.frame = CGRectMake(tileSize, tileSize, screenWidth - (2 * tileSize), screenHeight - (2 * tileSize) )
-	}
+	// MARK: - Misc	
 	
 	override func prefersStatusBarHidden() -> Bool {
 		return true
