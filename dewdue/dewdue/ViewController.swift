@@ -180,12 +180,12 @@ class ViewController: UIViewController {
 		var lineOrigin = CGFloat(minutes % (15*60))/(15*60) * (screenWidth-(2 * tileSize))
 		var lineWidth = gridView.frame.size.width-lineOrigin
 		
-//		if incrementMinutes < 15*60 {
-//			
-//			lineWidth =  ( CGFloat( incrementMinutes/60 ) )
-//			pointTarget.hidden = 1
-//			
-//		}
+		if ( (incrementMinutes/60) + (Int(timeNow.minute)%15) ) < 15 {
+			
+			lineWidth =  ( CGFloat( incrementMinutes/60 )/15 ) * (screenWidth-(2 * tileSize))
+			pointTarget.hidden = 1
+			
+		}
 		
 		
 		pointNow.frame = CGRectMake(lineOrigin, lineVerticalPosition,lineWidth , 1)
