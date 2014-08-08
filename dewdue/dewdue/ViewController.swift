@@ -38,9 +38,6 @@ class ViewController: UIViewController {
 		
 		templateStart()
 		timeStart()
-		
-//		alarmSetup()
-		
 	}
 
 	override func didReceiveMemoryWarning()
@@ -53,7 +50,6 @@ class ViewController: UIViewController {
 	func timeStart()
 	{
 		timeUpdate()
-		
 		var timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("timeStep"), userInfo: nil, repeats: true)
 	}
 	
@@ -73,11 +69,15 @@ class ViewController: UIViewController {
 		timeThen = calendar.components(.CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond , fromDate: dateFuture)
 		
 		timeTargetLabel.text = "\(timeThen.hour):\(timeThen.minute)"
+		timeLeftLabel.text = "\(incrementMinutes)"
+		
+		incrementMinutes -= 1
 	}
 	
 	func timeStep()
 	{
-		NSLog("!!")
+		timeUpdate()
+		lineUpdate()
 	}
 	
 	// MARK: - Template
@@ -158,7 +158,7 @@ class ViewController: UIViewController {
 			timeUpdate()
 			lineUpdate()
 		}
-	}	
+	}
 	
 	func lineUpdate()
 	{
@@ -169,31 +169,17 @@ class ViewController: UIViewController {
 	
 	func lineNowDraw()
 	{
-		// Draw Now
+		var minutes = ((timeNow.minute * 60) + timeNow.second)
 		
-		var targetMinutes = (timeNow.hour * 60) + timeNow.minute
-		var targetHoursFloat = Float(targetMinutes)/60
-		var posTest = (24-CGFloat(timeNow.hour)) * templateLineSpacing * 4
+		var lineVerticalPosition = (24-CGFloat(timeNow.hour)) * templateLineSpacing * 4
+		if timeNow.minute > 45 { lineVerticalPosition -= templateLineSpacing * 3  }
+		else if timeNow.minute > 30 { lineVerticalPosition -= templateLineSpacing * 2  }
+		else if timeNow.minute > 15 { lineVerticalPosition -= templateLineSpacing * 1  }
 		
-		if timeNow.minute > 45 { posTest -= templateLineSpacing * 3  }
-		else if timeNow.minute > 30 { posTest -= templateLineSpacing * 2  }
-		else if timeNow.minute > 15 { posTest -= templateLineSpacing * 1  }
+		var lineOrigin = CGFloat(UInt(minutes) % (15*60))/(15*60) * (screenWidth-(2 * tileSize))
+		var lineWidth = gridView.frame.size.width-lineOrigin
 		
-		var posWidth = CGFloat(UInt(timeNow.minute) % 15)/15 * (screenWidth-(2 * tileSize))
-		
-		// Early
-		if pointNow.frame.origin.y == pointTarget.frame.origin.y
-		{
-			var testSomething = ((incrementMinutes/60) % 15)
-			testSomething = testSomething * ( (screenWidth-(2 * tileSize)) / 15)
-			
-			pointNow.frame = CGRectMake(posWidth, posTest, CGFloat(testSomething), 1)
-			pointTarget.hidden = 1
-		}
-		else{
-			pointNow.frame = CGRectMake(posWidth, posTest, gridView.frame.size.width-posWidth, 1)
-			pointTarget.hidden = 0
-		}
+		pointNow.frame = CGRectMake(lineOrigin, lineVerticalPosition,lineWidth , 1)
 	}
 	
 	func lineThenDraw()
