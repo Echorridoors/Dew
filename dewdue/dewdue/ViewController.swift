@@ -27,6 +27,9 @@ class ViewController: UIViewController {
 	var touchStart:CGFloat = 0.0
 	var incrementMinutes = 0
 	
+	var timeNow: NSDateComponents!
+	var timeThen: NSDateComponents!
+	
 	// MARK: - Init
 	
 	override func viewDidLoad()
@@ -49,7 +52,27 @@ class ViewController: UIViewController {
 	
 	func timeStart()
 	{
+		timeUpdate()
+		
 		var timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("timeStep"), userInfo: nil, repeats: true)
+	}
+	
+	func timeUpdate()
+	{
+		let date = NSDate()
+		
+		let calendar = NSCalendar.currentCalendar()
+		let dateFormatter = NSDateFormatter()
+		dateFormatter.timeZone = NSTimeZone()
+		
+		timeNow = calendar.components(.CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond , fromDate: date)
+		
+		let dateFuture = NSDate(timeIntervalSinceNow: NSTimeInterval(incrementMinutes) )
+		let futureDate = dateFormatter.stringFromDate( dateFuture )
+		
+		timeThen = calendar.components(.CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond , fromDate: dateFuture)
+		
+		timeTargetLabel.text = "\(timeThen.hour):\(timeThen.minute)"
 	}
 	
 	func timeStep()
@@ -112,12 +135,11 @@ class ViewController: UIViewController {
 		
 	}
 	
-	override func touchesMoved(touches: NSSet!, withEvent event: UIEvent!) {
-		
-		for touch: AnyObject in touches {
-			
+	override func touchesMoved(touches: NSSet!, withEvent event: UIEvent!)
+	{
+		for touch: AnyObject in touches
+		{
 			let location = touch.locationInView(gridView)
-			
 			var incrementStep = 30
 			
 			if abs(touchStart - location.y) < 100 { incrementStep = 60 }
@@ -130,103 +152,100 @@ class ViewController: UIViewController {
 			
 			if incrementMinutes < 0 {
 				incrementMinutes = 0
-				continue
+				return
 			}
 			
-			// Setup
-			
-			let date = NSDate()
-			
-			let calendar = NSCalendar.currentCalendar()
-			let dateFormatter = NSDateFormatter()
-			dateFormatter.timeZone = NSTimeZone()
-			
-			let timeNow = calendar.components(.CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond , fromDate: date)
-			
-			let dateFuture = NSDate(timeIntervalSinceNow: NSTimeInterval(incrementMinutes) )
-			let futureDate = dateFormatter.stringFromDate( dateFuture )
-			let timeThen = calendar.components(.CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond , fromDate: dateFuture)
-			
-			timeTargetLabel.text = "\(timeThen.hour):\(timeThen.minute)"
-			
-			// Draw Then
-			
-			var targetMinutes = (timeThen.hour * 60) + timeThen.minute
-			var targetHoursFloat = Float(targetMinutes)/60
-			var posTest = (24-CGFloat(timeThen.hour)) * templateLineSpacing * 4
-	
-			if timeThen.minute > 45 { posTest -= templateLineSpacing * 3  }
-			else if timeThen.minute > 30 { posTest -= templateLineSpacing * 2  }
-			else if timeThen.minute > 15 { posTest -= templateLineSpacing * 1  }
-			
-			var posWidth = CGFloat(UInt(timeThen.minute) % 15)/15 * (screenWidth-(2 * tileSize))
-			pointTarget.frame = CGRectMake(0, posTest, posWidth, 1)
-			
-			// Draw Now
-			
-			targetMinutes = (timeNow.hour * 60) + timeNow.minute
-			targetHoursFloat = Float(targetMinutes)/60
-			posTest = (24-CGFloat(timeNow.hour)) * templateLineSpacing * 4
-			
-			if timeNow.minute > 45 { posTest -= templateLineSpacing * 3  }
-			else if timeNow.minute > 30 { posTest -= templateLineSpacing * 2  }
-			else if timeNow.minute > 15 { posTest -= templateLineSpacing * 1  }
-	
-			posWidth = CGFloat(UInt(timeNow.minute) % 15)/15 * (screenWidth-(2 * tileSize))
-			
-			// Early
-			if pointNow.frame.origin.y == pointTarget.frame.origin.y
-			{
-				var testSomething = ((incrementMinutes/60) % 15)
-				testSomething = testSomething * ( (screenWidth-(2 * tileSize)) / 15)
-				
-				pointNow.frame = CGRectMake(posWidth, posTest, CGFloat(testSomething), 1)
-				pointTarget.hidden = 1
-			}
-			else{
-				pointNow.frame = CGRectMake(posWidth, posTest, gridView.frame.size.width-posWidth, 1)
-				pointTarget.hidden = 0
-			}
-			
-			// Erase Old Inbetweens
-			
-			for view in gridView.subviews {
-				if view.tag != 100 { continue }
-				view.removeFromSuperview()
-			}
-
-			// Draw Inbetweens
-			
-			var someTest = incrementMinutes / 60
-			someTest = someTest + (timeNow.minute)
-			someTest = someTest / 15
-	
-			
-			var offset = 1
-			if timeNow.minute > 45 { offset = 4 }
-			else if timeNow.minute > 30 { offset = 3 }
-			else if timeNow.minute > 15 { offset = 2 }
-			
-			var i = 0
-			while i < someTest-offset
-			{
-				let positionY = pointNow.frame.origin.y - ( (CGFloat(i) + 1) * templateLineSpacing)
-				var lineView = UIView(frame: CGRectMake(0.0, positionY, screenWidth-(2*tileSize), 1))
-				
-				if lineView.frame.origin.y < 0 {
-					
-					lineView.frame = CGRectMake(0.0, positionY+(24*4*templateLineSpacing), screenWidth-(2*tileSize), 1)
-					
-				}
-				
-				lineView.backgroundColor = UIColor.whiteColor()
-				lineView.tag = 100
-				
-				self.gridView.addSubview(lineView)
-				
-				i = i + 1
-			}
+			timeUpdate()
+			lineUpdate()
 		}
+	}	
+	
+	func lineUpdate()
+	{
+		lineNowDraw()
+		lineThenDraw()
+		lineInbetweensDraw()
+	}
+	
+	func lineNowDraw()
+	{
+		// Draw Now
+		
+		var targetMinutes = (timeNow.hour * 60) + timeNow.minute
+		var targetHoursFloat = Float(targetMinutes)/60
+		var posTest = (24-CGFloat(timeNow.hour)) * templateLineSpacing * 4
+		
+		if timeNow.minute > 45 { posTest -= templateLineSpacing * 3  }
+		else if timeNow.minute > 30 { posTest -= templateLineSpacing * 2  }
+		else if timeNow.minute > 15 { posTest -= templateLineSpacing * 1  }
+		
+		var posWidth = CGFloat(UInt(timeNow.minute) % 15)/15 * (screenWidth-(2 * tileSize))
+		
+		// Early
+		if pointNow.frame.origin.y == pointTarget.frame.origin.y
+		{
+			var testSomething = ((incrementMinutes/60) % 15)
+			testSomething = testSomething * ( (screenWidth-(2 * tileSize)) / 15)
+			
+			pointNow.frame = CGRectMake(posWidth, posTest, CGFloat(testSomething), 1)
+			pointTarget.hidden = 1
+		}
+		else{
+			pointNow.frame = CGRectMake(posWidth, posTest, gridView.frame.size.width-posWidth, 1)
+			pointTarget.hidden = 0
+		}
+	}
+	
+	func lineThenDraw()
+	{
+		// Draw Then
+		
+		var targetMinutes = (timeThen.hour * 60) + timeThen.minute
+		var targetHoursFloat = Float(targetMinutes)/60
+		var posTest = (24-CGFloat(timeThen.hour)) * templateLineSpacing * 4
+		
+		if timeThen.minute > 45 { posTest -= templateLineSpacing * 3  }
+		else if timeThen.minute > 30 { posTest -= templateLineSpacing * 2  }
+		else if timeThen.minute > 15 { posTest -= templateLineSpacing * 1  }
+		
+		var posWidth = CGFloat(UInt(timeThen.minute) % 15)/15 * (screenWidth-(2 * tileSize))
+		pointTarget.frame = CGRectMake(0, posTest, posWidth, 1)
+	}
+	
+	func lineInbetweensDraw()
+	{
+		for view in gridView.subviews {
+			if view.tag != 100 { continue }
+			view.removeFromSuperview()
+		}
+		
+		// Draw Inbetweens
+		
+		var someTest = incrementMinutes / 60
+		someTest = someTest + (timeNow.minute)
+		someTest = someTest / 15
+		
+		var offset = 1
+		if timeNow.minute > 45 { offset = 4 }
+		else if timeNow.minute > 30 { offset = 3 }
+		else if timeNow.minute > 15 { offset = 2 }
+		
+		var i = 0
+		while i < someTest-offset
+		{
+			let positionY = pointNow.frame.origin.y - ( (CGFloat(i) + 1) * templateLineSpacing)
+			var lineView = UIView(frame: CGRectMake(0.0, positionY, screenWidth-(2*tileSize), 1))
+			
+			if lineView.frame.origin.y < 0 { lineView.frame = CGRectMake(0.0, positionY+(24*4*templateLineSpacing), screenWidth-(2*tileSize), 1) }
+			
+			lineView.backgroundColor = UIColor.whiteColor()
+			lineView.tag = 100
+			
+			self.gridView.addSubview(lineView)
+			
+			i = i + 1
+		}
+		
 	}
 	
 	
@@ -251,7 +270,7 @@ class ViewController: UIViewController {
 		UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
 	}
 	
-	// MARK: - Misc	
+	// MARK: - Misc
 	
 	override func prefersStatusBarHidden() -> Bool {
 		return true
