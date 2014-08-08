@@ -71,7 +71,8 @@ class ViewController: UIViewController {
 		timeTargetLabel.text = "\(timeThen.hour):\(timeThen.minute)"
 		timeLeftLabel.text = "\(incrementMinutes)"
 		
-		incrementMinutes -= 1
+		if incrementMinutes > 0 { incrementMinutes -= 1 }
+		
 	}
 	
 	func timeStep()
@@ -109,7 +110,7 @@ class ViewController: UIViewController {
 		{
 			var lineView = UIView(frame: CGRectMake(0, (templateLineSpacing * CGFloat(i)), screenWidth-(2*tileSize)+1, 1))
 			
-			if i % 4 == 0 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")).colorWithAlphaComponent(0.5) }
+			if i % 24 == 0 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.3.png")).colorWithAlphaComponent(0.5) }
 			else if i % 4 == 2 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")).colorWithAlphaComponent(0.5) }
 			else { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")).colorWithAlphaComponent(0.5) }
 			
@@ -146,6 +147,7 @@ class ViewController: UIViewController {
 			else if abs(touchStart - location.y) < 200 { incrementStep = 120 }
 			else if abs(touchStart - location.y) < 300 { incrementStep = 240 }
 			else if abs(touchStart - location.y) < 400 { incrementStep = 480 }
+			else { incrementStep = 960 }
 			
 			if touchStart > location.y { incrementMinutes += incrementStep }
 			else{ incrementMinutes += -incrementStep }
@@ -169,15 +171,22 @@ class ViewController: UIViewController {
 	
 	func lineNowDraw()
 	{
-		var minutes = ((timeNow.minute * 60) + timeNow.second)
-		
+		var minutes = UInt((timeNow.minute * 60) + timeNow.second)
 		var lineVerticalPosition = (24-CGFloat(timeNow.hour)) * templateLineSpacing * 4
 		if timeNow.minute > 45 { lineVerticalPosition -= templateLineSpacing * 3  }
 		else if timeNow.minute > 30 { lineVerticalPosition -= templateLineSpacing * 2  }
 		else if timeNow.minute > 15 { lineVerticalPosition -= templateLineSpacing * 1  }
 		
-		var lineOrigin = CGFloat(UInt(minutes) % (15*60))/(15*60) * (screenWidth-(2 * tileSize))
+		var lineOrigin = CGFloat(minutes % (15*60))/(15*60) * (screenWidth-(2 * tileSize))
 		var lineWidth = gridView.frame.size.width-lineOrigin
+		
+//		if incrementMinutes < 15*60 {
+//			
+//			lineWidth =  ( CGFloat( incrementMinutes/60 ) )
+//			pointTarget.hidden = 1
+//			
+//		}
+		
 		
 		pointNow.frame = CGRectMake(lineOrigin, lineVerticalPosition,lineWidth , 1)
 	}
@@ -196,6 +205,14 @@ class ViewController: UIViewController {
 		
 		var posWidth = CGFloat(UInt(timeThen.minute) % 15)/15 * (screenWidth-(2 * tileSize))
 		pointTarget.frame = CGRectMake(0, posTest, posWidth, 1)
+		
+		pointTarget.hidden = 0
+		
+		if pointTarget.frame.origin.y == pointNow.frame.origin.y
+		{
+			pointTarget.hidden = 1
+		}
+		
 	}
 	
 	func lineInbetweensDraw()
