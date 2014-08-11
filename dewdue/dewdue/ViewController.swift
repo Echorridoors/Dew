@@ -75,7 +75,6 @@ class ViewController: UIViewController {
 		let minutesLeft = (incrementMinutes/60) - (60*hoursLeft)
 		let secondsLeft = (incrementMinutes) - (60*60*hoursLeft) - (60*minutesLeft)
 		
-		
 		timeLeftLabel.text = "\(hoursLeft):\(minutesLeft):\(secondsLeft)"
 		
 		if incrementMinutes > 0 { incrementMinutes -= 1 }
@@ -170,8 +169,17 @@ class ViewController: UIViewController {
 	
 	override func touchesEnded(touches: NSSet!, withEvent event: UIEvent!)
 	{
-			timeUpdate()
-			lineUpdate()
+		
+		timeLeftLabel.textColor = UIColor.whiteColor()
+		
+		if incrementMinutes > 0
+		{
+			timeLeftLabel.textColor = UIColor.redColor()
+			alarmSetup()
+		}
+		
+		timeUpdate()
+		lineUpdate()
 	}
 	
 	func lineUpdate()
@@ -281,10 +289,15 @@ class ViewController: UIViewController {
 	
 	func alarmSetup()
 	{
+		NSLog("! ALARM | Set")
+		
+		UIApplication.sharedApplication().cancelAllLocalNotifications()
+		
 		var localNotification:UILocalNotification = UILocalNotification()
-		localNotification.alertAction = "Testing notifications on iOS8"
-		localNotification.alertBody = "Woww it works!!"
-		localNotification.fireDate = NSDate(timeIntervalSinceNow: 5)
+		localNotification.alertAction = "turn off the alarm"
+		localNotification.alertBody = "∆ Reached"
+		let test:NSTimeInterval = NSTimeInterval(incrementMinutes)
+		localNotification.fireDate = NSDate(timeIntervalSinceNow: test)
 		UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
 	}
 	
