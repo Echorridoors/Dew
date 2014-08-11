@@ -17,6 +17,7 @@ class ViewController: UIViewController {
 	@IBOutlet var gridView: UIView!
 	@IBOutlet var pointNow: UIView!
 	@IBOutlet var pointTarget: UIView!
+	@IBOutlet var alarmLabel: UILabel!
 	
 	var tileSize:CGFloat = 0.0
 	var screenWidth:CGFloat = 0.0
@@ -68,8 +69,14 @@ class ViewController: UIViewController {
 		
 		timeThen = calendar.components(.CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond , fromDate: dateFuture)
 		
-		timeTargetLabel.text = "\(timeThen.hour):\(timeThen.minute)"
-		timeLeftLabel.text = "\(incrementMinutes)"
+		timeTargetLabel.text = "\(timeThen.hour):\(timeThen.minute):\(timeThen.second)"
+		
+		let hoursLeft = incrementMinutes/60/60
+		let minutesLeft = (incrementMinutes/60) - (60*hoursLeft)
+		let secondsLeft = (incrementMinutes) - (60*60*hoursLeft) - (60*minutesLeft)
+		
+		
+		timeLeftLabel.text = "\(hoursLeft):\(minutesLeft):\(secondsLeft)"
 		
 		if incrementMinutes > 0 { incrementMinutes -= 1 }
 		
@@ -97,8 +104,9 @@ class ViewController: UIViewController {
 		
 		gridView.frame = CGRectMake(tileSize, tileSize, screenWidth - (2 * tileSize), screenHeight - (2 * tileSize) )
 		
-		timeLeftLabel.frame = CGRectMake(tileSize, screenHeight-tileSize, screenWidth-(2*tileSize), tileSize)
-		timeTargetLabel.frame = CGRectMake(tileSize, screenHeight-tileSize, screenWidth-(2*tileSize), tileSize)
+		timeLeftLabel.frame = CGRectMake(tileSize, 0, screenWidth-(2*tileSize), tileSize)
+		timeTargetLabel.frame = CGRectMake(tileSize, 0, screenWidth-(2*tileSize), tileSize)
+		alarmLabel.frame = CGRectMake(tileSize, 0, screenWidth-(2*tileSize), tileSize)
 		
 		templateGrid()
 	}
@@ -160,6 +168,12 @@ class ViewController: UIViewController {
 		}
 	}
 	
+	override func touchesEnded(touches: NSSet!, withEvent event: UIEvent!)
+	{
+			timeUpdate()
+			lineUpdate()
+	}
+	
 	func lineUpdate()
 	{
 		lineNowDraw()
@@ -176,13 +190,17 @@ class ViewController: UIViewController {
 		else if timeNow.minute > 15 { lineVerticalPosition -= templateLineSpacing * 1  }
 		
 		var lineOrigin = CGFloat(minutes % (15*60))/(15*60) * (screenWidth-(2 * tileSize))
-		var lineWidth = gridView.frame.size.width-lineOrigin
+		var lineWidth = CGFloat(Int(gridView.frame.size.width-lineOrigin))
 		
 		if ( (incrementMinutes/60) + (Int(timeNow.minute)%15) ) < 15 {
 			
 			lineWidth =  ( CGFloat( incrementMinutes/60 )/15 ) * (screenWidth-(2 * tileSize))
 			pointTarget.hidden = 1
 			
+		}
+		
+		if incrementMinutes < 1 {
+			lineWidth = 1
 		}
 		
 		
@@ -248,7 +266,6 @@ class ViewController: UIViewController {
 		}
 		
 	}
-	
 	
 	func touchValuePerc(nowVal: Float,maxVal: Float) -> Float
 	{

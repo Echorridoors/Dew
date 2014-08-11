@@ -30,6 +30,13 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Square Noise" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="HU2-8x-rJe" userLabel="alarmLabel">
+                                <rect key="frame" x="5" y="275" width="310" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" id="DRJ-s5-Tca" userLabel="gridView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -50,6 +57,7 @@
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <connections>
+                        <outlet property="alarmLabel" destination="HU2-8x-rJe" id="zcq-GJ-2LZ"/>
                         <outlet property="gridView" destination="DRJ-s5-Tca" id="reh-AE-rsC"/>
                         <outlet property="pointNow" destination="lIc-zr-1dq" id="h5V-Kh-ply"/>
                         <outlet property="pointTarget" destination="2Ei-mh-OTu" id="OGO-42-sf8"/>
