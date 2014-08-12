@@ -295,9 +295,10 @@ class ViewController: UIViewController {
 		
 		var localNotification:UILocalNotification = UILocalNotification()
 		localNotification.alertAction = "turn off the alarm"
-		localNotification.alertBody = "∆ Reached"
+		localNotification.alertBody = "∆ Good Mourning"
 		let test:NSTimeInterval = NSTimeInterval(incrementMinutes)
 		localNotification.fireDate = NSDate(timeIntervalSinceNow: test)
+		localNotification.soundName = "test2.wav"
 		UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
 	}
 	
