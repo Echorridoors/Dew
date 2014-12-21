@@ -146,20 +146,15 @@ class ViewController: UIViewController {
 		for touch: AnyObject in touches
 		{
 			let location = touch.locationInView(gridView)
-			var incrementStep = 30
+			var incrementStep = abs(touchStart - location.y)
+
+			NSLog("%@",incrementStep)
 			
-			if abs(touchStart - location.y) < 100 { incrementStep = 60 }
-			else if abs(touchStart - location.y) < 200 { incrementStep = 120 }
-			else if abs(touchStart - location.y) < 300 { incrementStep = 240 }
-			else if abs(touchStart - location.y) < 400 { incrementStep = 480 }
-			else { incrementStep = 960 }
-			
-			if touchStart > location.y { incrementMinutes += incrementStep }
-			else{ incrementMinutes += -incrementStep }
+			if touchStart > location.y { incrementMinutes += Int(incrementStep) }
+			else{ incrementMinutes -= Int(incrementStep) }
 			
 			if incrementMinutes < 0 {
 				incrementMinutes = 0
-				return
 			}
 			
 			timeUpdate()
@@ -258,7 +253,7 @@ class ViewController: UIViewController {
 		else if timeNow.minute > 15 { offset = 2 }
 		
 		var i = 0
-		while i < someTest-offset
+		while i < Int(someTest - offset)
 		{
 			let positionY = pointNow.frame.origin.y - ( (CGFloat(i) + 1) * templateLineSpacing)
 			var lineView = UIView(frame: CGRectMake(0.0, positionY, screenWidth-(2*tileSize), 1))
