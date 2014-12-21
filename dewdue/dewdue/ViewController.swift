@@ -222,28 +222,41 @@ class ViewController: UIViewController {
 	
 	func lineNowDraw()
 	{
-		var minutes = UInt((timeNow.minute * 60) + timeNow.second)
-		var lineVerticalPosition = (24-CGFloat(timeNow.hour)) * templateLineSpacing * 4
-		if timeNow.minute > 45 { lineVerticalPosition -= templateLineSpacing * 3  }
-		else if timeNow.minute > 30 { lineVerticalPosition -= templateLineSpacing * 2  }
-		else if timeNow.minute > 15 { lineVerticalPosition -= templateLineSpacing * 1  }
+		var targetSeconds = (timeNow.hour * 60 * 60) + (timeNow.minute * 60) + timeNow.second
 		
-		var lineOrigin = CGFloat(minutes % (15*60))/(15*60) * (screenWidth-(2 * tileSize))
+		var positionY = (24-CGFloat(timeNow.hour)) * templateLineSpacing * 4
+		
+		if timeNow.minute > 45 { positionY -= templateLineSpacing * 3  }
+		else if timeNow.minute > 30 { positionY -= templateLineSpacing * 2  }
+		else if timeNow.minute > 15 { positionY -= templateLineSpacing * 1  }
+		
+		let spaceToOccupy = screenWidth - (2 * tileSize)
+		
+		let percentGone = Float(targetSeconds % 900)/900
+		var posWidth = CGFloat(percentGone) * spaceToOccupy
+		
+		var lineOrigin = CGFloat(percentGone) * spaceToOccupy
 		var lineWidth = CGFloat(Int(gridView.frame.size.width-lineOrigin))
 		
-		if ( (incrementMinutes/60) + (Int(timeNow.minute)%15) ) < 15 {
+		// Doesnt take the whole line
+		if ( (incrementMinutes/60) + (Int(timeNow.minute)%15) ) < 15
+		{
+			let targetTimeThen = (timeThen.hour * 60 * 60) + (timeThen.minute * 60) + timeThen.second
 			
-			lineWidth =  ( CGFloat( incrementMinutes/60 )/15 ) * (screenWidth-(2 * tileSize))
+			let targetPercentGone = Float(targetTimeThen % 900)/900
+			var targetPosWidth = CGFloat(targetPercentGone) * spaceToOccupy
+			targetPosWidth = targetPosWidth - lineOrigin
+			
+			lineWidth = targetPosWidth
 			pointTarget.hidden = true
 			
 		}
 		
-		if incrementMinutes < 1 {
+		if lineWidth < 2 {
 			lineWidth = 1
 		}
-		
-		
-		pointNow.frame = CGRectMake(lineOrigin, lineVerticalPosition,lineWidth , 1)
+
+		pointNow.frame = CGRectMake(lineOrigin, positionY,lineWidth , 1)
 	}
 	
 	func lineThenDraw()
@@ -251,7 +264,6 @@ class ViewController: UIViewController {
 		// Draw Then
 		
 		var targetSeconds = (timeThen.hour * 60 * 60) + (timeThen.minute * 60) + timeThen.second
-		var targetHoursFloat = Float(targetSeconds)/3600
 		var positionY = (24-CGFloat(timeThen.hour)) * templateLineSpacing * 4
 		
 		if timeThen.minute > 45 { positionY -= templateLineSpacing * 3  }
@@ -261,9 +273,6 @@ class ViewController: UIViewController {
 		let spaceToOccupy = screenWidth - (2 * tileSize)
 		
 		let percentGone = Float(targetSeconds % 900)/900
-		
-		println(percentGone)
-		
 		var posWidth = CGFloat(percentGone) * spaceToOccupy
 		
 		pointTarget.frame = CGRectMake(0, positionY, posWidth, 1)
