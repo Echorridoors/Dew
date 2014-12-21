@@ -10,29 +10,29 @@
 	<string>Dew</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>BE6C7068-AA4A-479C-A2E3-0A2F0945AAC9</key>
+		<key>64279C28043FD282E4FE9E38B8443BD0CB16DFB4</key>
 		<string>https://github.com/aliceffekt/dewdue.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>dewdue/Dew.xcodeproj/project.xcworkspace</string>
+	<string>dewdue/Dew.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>BE6C7068-AA4A-479C-A2E3-0A2F0945AAC9</key>
+		<key>64279C28043FD282E4FE9E38B8443BD0CB16DFB4</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/aliceffekt/dewdue.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>BE6C7068-AA4A-479C-A2E3-0A2F0945AAC9</string>
+	<string>64279C28043FD282E4FE9E38B8443BD0CB16DFB4</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>BE6C7068-AA4A-479C-A2E3-0A2F0945AAC9</string>
+			<string>64279C28043FD282E4FE9E38B8443BD0CB16DFB4</string>
 			<key>IDESourceControlWCCName</key>
 			<string>dewdue</string>
 		</dict>

@@ -117,10 +117,10 @@ class ViewController: UIViewController {
 		{
 			var lineView = UIView(frame: CGRectMake(0, (templateLineSpacing * CGFloat(i)), screenWidth-(2*tileSize)+1, 1))
 			
-			if i == 0 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")).colorWithAlphaComponent(0.5) }
-			else if i % 24 == 0 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.3.png")).colorWithAlphaComponent(0.5) }
-			else if i % 4 == 2 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")).colorWithAlphaComponent(0.5) }
-			else { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")).colorWithAlphaComponent(0.5) }
+			if i == 0 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")!).colorWithAlphaComponent(0.5) }
+			else if i % 24 == 0 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.3.png")!).colorWithAlphaComponent(0.5) }
+			else if i % 4 == 2 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")!).colorWithAlphaComponent(0.5) }
+			else { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")!).colorWithAlphaComponent(0.5) }
 			
 			self.gridView.addSubview(lineView)
 			
@@ -131,7 +131,7 @@ class ViewController: UIViewController {
 	
 	// MARK: - Touch
 	
-	override func touchesBegan(touches: NSSet!, withEvent event: UIEvent!) {
+	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
 		
 		for touch: AnyObject in touches {
 			let location = touch.locationInView(gridView)
@@ -141,7 +141,7 @@ class ViewController: UIViewController {
 		
 	}
 	
-	override func touchesMoved(touches: NSSet!, withEvent event: UIEvent!)
+	override func touchesMoved(touches: NSSet, withEvent event: UIEvent)
 	{
 		for touch: AnyObject in touches
 		{
@@ -167,7 +167,7 @@ class ViewController: UIViewController {
 		}
 	}
 	
-	override func touchesEnded(touches: NSSet!, withEvent event: UIEvent!)
+	override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
 	{
 		
 		timeLeftLabel.textColor = UIColor.whiteColor()
@@ -203,7 +203,7 @@ class ViewController: UIViewController {
 		if ( (incrementMinutes/60) + (Int(timeNow.minute)%15) ) < 15 {
 			
 			lineWidth =  ( CGFloat( incrementMinutes/60 )/15 ) * (screenWidth-(2 * tileSize))
-			pointTarget.hidden = 1
+			pointTarget.hidden = true
 			
 		}
 		
@@ -230,11 +230,11 @@ class ViewController: UIViewController {
 		var posWidth = CGFloat(UInt(timeThen.minute) % 15)/15 * (screenWidth-(2 * tileSize))
 		pointTarget.frame = CGRectMake(0, posTest, posWidth, 1)
 		
-		pointTarget.hidden = 0
+		pointTarget.hidden = false
 		
 		if pointTarget.frame.origin.y == pointNow.frame.origin.y
 		{
-			pointTarget.hidden = 1
+			pointTarget.hidden = true
 		}
 		
 	}
@@ -289,7 +289,7 @@ class ViewController: UIViewController {
 	
 	func alarmSetup()
 	{
-		NSLog("! ALARM | Set")
+		NSLog("! ALARM | Set: %d", incrementMinutes)
 		
 		UIApplication.sharedApplication().cancelAllLocalNotifications()
 		
