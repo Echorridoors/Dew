@@ -72,7 +72,6 @@ class ViewController: UIViewController {
 		
 		timeThen = calendar.components(.CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond , fromDate: dateFuture)
 		
-		
 		var timeThenSecondsString = "\(timeThen.second)"
 		if( timeThen.second < 10 ){ timeThenSecondsString = "0\(timeThen.second)" }
 		
@@ -301,9 +300,6 @@ class ViewController: UIViewController {
 			if view.tag != 100 { continue }
 			view.removeFromSuperview()
 		}
-
-		
-		NSLog("BETWEEN %@",(pointNow.frame.origin.y - pointTarget.frame.origin.y)/templateLineSpacing )
 		
 		let numberOfLines = (pointNow.frame.origin.y - pointTarget.frame.origin.y)/templateLineSpacing
 		
