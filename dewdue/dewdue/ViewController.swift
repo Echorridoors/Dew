@@ -226,9 +226,9 @@ class ViewController: UIViewController {
 		
 		var positionY = (24-CGFloat(timeNow.hour)) * templateLineSpacing * 4
 		
-		if timeNow.minute > 45 { positionY -= templateLineSpacing * 3  }
-		else if timeNow.minute > 30 { positionY -= templateLineSpacing * 2  }
-		else if timeNow.minute > 15 { positionY -= templateLineSpacing * 1  }
+		if timeNow.minute >= 45 { positionY -= templateLineSpacing * 3  }
+		else if timeNow.minute >= 30 { positionY -= templateLineSpacing * 2  }
+		else if timeNow.minute >= 15 { positionY -= templateLineSpacing * 1  }
 		
 		let spaceToOccupy = screenWidth - (2 * tileSize)
 		
@@ -238,8 +238,10 @@ class ViewController: UIViewController {
 		var lineOrigin = CGFloat(percentGone) * spaceToOccupy
 		var lineWidth = CGFloat(Int(gridView.frame.size.width-lineOrigin))
 		
+		var fromMinutePos = ((timeNow.minute * 60) + timeNow.second) % 900
+		
 		// Doesnt take the whole line
-		if ( (incrementMinutes/60) + (Int(timeNow.minute)%15) ) < 15
+		if fromMinutePos + incrementMinutes < 900
 		{
 			let targetTimeThen = (timeThen.hour * 60 * 60) + (timeThen.minute * 60) + timeThen.second
 			
@@ -266,9 +268,9 @@ class ViewController: UIViewController {
 		var targetSeconds = (timeThen.hour * 60 * 60) + (timeThen.minute * 60) + timeThen.second
 		var positionY = (24-CGFloat(timeThen.hour)) * templateLineSpacing * 4
 		
-		if timeThen.minute > 45 { positionY -= templateLineSpacing * 3  }
-		else if timeThen.minute > 30 { positionY -= templateLineSpacing * 2  }
-		else if timeThen.minute > 15 { positionY -= templateLineSpacing * 1  }
+		if timeThen.minute > 44 { positionY -= templateLineSpacing * 3  }
+		else if timeThen.minute > 29 { positionY -= templateLineSpacing * 2  }
+		else if timeThen.minute > 14 { positionY -= templateLineSpacing * 1  }
 		
 		let spaceToOccupy = screenWidth - (2 * tileSize)
 		
@@ -287,38 +289,27 @@ class ViewController: UIViewController {
 	
 	func lineInbetweensDraw()
 	{
+		
 		for view in gridView.subviews {
 			if view.tag != 100 { continue }
 			view.removeFromSuperview()
 		}
+
 		
-		// Draw Inbetweens
+		NSLog("BETWEEN %@",(pointNow.frame.origin.y - pointTarget.frame.origin.y)/templateLineSpacing )
 		
-		var someTest = incrementMinutes / 60
-		someTest = someTest + (timeNow.minute)
-		someTest = someTest / 15
-		
-		var offset = 1
-		if timeNow.minute > 45 { offset = 4 }
-		else if timeNow.minute > 30 { offset = 3 }
-		else if timeNow.minute > 15 { offset = 2 }
+		let numberOfLines = (pointNow.frame.origin.y - pointTarget.frame.origin.y)/templateLineSpacing
 		
 		var i = 0
-		while i < Int(someTest - offset)
+		while i < Int(numberOfLines) - 1
 		{
-			let positionY = pointNow.frame.origin.y - ( (CGFloat(i) + 1) * templateLineSpacing)
+			let positionY = pointTarget.frame.origin.y + ( CGFloat(i+1) * templateLineSpacing)
 			var lineView = UIView(frame: CGRectMake(0.0, positionY, screenWidth-(2*tileSize), 1))
-			
-			if lineView.frame.origin.y < 0 { lineView.frame = CGRectMake(0.0, positionY+(24*4*templateLineSpacing), screenWidth-(2*tileSize), 1) }
-			
 			lineView.backgroundColor = UIColor.whiteColor()
 			lineView.tag = 100
-			
 			self.gridView.addSubview(lineView)
-			
 			i = i + 1
 		}
-		
 	}
 	
 	func touchValuePerc(nowVal: Float,maxVal: Float) -> Float
