@@ -31,6 +31,8 @@ class ViewController: UIViewController {
 	var timeNow: NSDateComponents!
 	var timeThen: NSDateComponents!
 	
+	var timerTouch:NSTimer!
+	
 	// MARK: - Init
 	
 	override func viewDidLoad()
@@ -39,6 +41,7 @@ class ViewController: UIViewController {
 		
 		templateStart()
 		timeStart()
+		lineUpdate()
 	}
 
 	override func didReceiveMemoryWarning()
@@ -99,6 +102,12 @@ class ViewController: UIViewController {
 		
 	}
 	
+	func timeIncrementSmall()
+	{
+		incrementMinutes += 5
+		timeStep()
+	}
+	
 	func timeStep()
 	{
 		timeUpdate()
@@ -157,12 +166,17 @@ class ViewController: UIViewController {
 			NSLog("> START | %@", location.y)
 		}
 		
-		timeLeftLabel.textColor = UIColor.redColor()
+		timerTouch = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: Selector("timeIncrementSmall"), userInfo: nil, repeats: true)
+		
+		timeIncrementSmall()
+		
+		timeLeftLabel.textColor = UIColor.grayColor()
 		
 	}
 	
 	override func touchesMoved(touches: NSSet, withEvent event: UIEvent)
 	{
+		timerTouch.invalidate()
 		for touch: AnyObject in touches
 		{
 			let location = touch.locationInView(gridView)
@@ -181,17 +195,15 @@ class ViewController: UIViewController {
 			lineUpdate()
 		}
 		
-		timeLeftLabel.textColor = UIColor.redColor()
+		timeLeftLabel.textColor = UIColor.grayColor()
 	}
 	
 	override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
 	{
-		
-		timeLeftLabel.textColor = UIColor.whiteColor()
+		timerTouch.invalidate()
 		
 		if incrementMinutes > 0
 		{
-			timeLeftLabel.textColor = UIColor.redColor()
 			alarmSetup()
 		}
 		
@@ -238,17 +250,23 @@ class ViewController: UIViewController {
 	{
 		// Draw Then
 		
-		var targetMinutes = (timeThen.hour * 60) + timeThen.minute
-		var targetHoursFloat = Float(targetMinutes)/60
-		var posTest = (24-CGFloat(timeThen.hour)) * templateLineSpacing * 4
+		var targetSeconds = (timeThen.hour * 60 * 60) + (timeThen.minute * 60) + timeThen.second
+		var targetHoursFloat = Float(targetSeconds)/3600
+		var positionY = (24-CGFloat(timeThen.hour)) * templateLineSpacing * 4
 		
-		if timeThen.minute > 45 { posTest -= templateLineSpacing * 3  }
-		else if timeThen.minute > 30 { posTest -= templateLineSpacing * 2  }
-		else if timeThen.minute > 15 { posTest -= templateLineSpacing * 1  }
+		if timeThen.minute > 45 { positionY -= templateLineSpacing * 3  }
+		else if timeThen.minute > 30 { positionY -= templateLineSpacing * 2  }
+		else if timeThen.minute > 15 { positionY -= templateLineSpacing * 1  }
 		
-		var posWidth = CGFloat(UInt(timeThen.minute) % 15)/15 * (screenWidth-(2 * tileSize))
-		pointTarget.frame = CGRectMake(0, posTest, posWidth, 1)
+		let spaceToOccupy = screenWidth - (2 * tileSize)
 		
+		let percentGone = Float(targetSeconds % 900)/900
+		
+		println(percentGone)
+		
+		var posWidth = CGFloat(percentGone) * spaceToOccupy
+		
+		pointTarget.frame = CGRectMake(0, positionY, posWidth, 1)
 		pointTarget.hidden = false
 		
 		if pointTarget.frame.origin.y == pointNow.frame.origin.y
