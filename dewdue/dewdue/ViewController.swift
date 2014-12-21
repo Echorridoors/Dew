@@ -75,8 +75,26 @@ class ViewController: UIViewController {
 		let minutesLeft = (incrementMinutes/60) - (60*hoursLeft)
 		let secondsLeft = (incrementMinutes) - (60*60*hoursLeft) - (60*minutesLeft)
 		
-		timeLeftLabel.text = "\(hoursLeft):\(minutesLeft):\(secondsLeft)"
+		var secondsLeftString = "\(secondsLeft)"
+		if( secondsLeft < 10 ){ secondsLeftString = "0\(secondsLeft)" }
 		
+		var MinutesLeftString = "\(minutesLeft)"
+		if( minutesLeft < 10 ){ MinutesLeftString = "0\(minutesLeft)" }
+		
+		if(hoursLeft > 0){
+			timeLeftLabel.text = "\(hoursLeft):\(MinutesLeftString):\(secondsLeftString)"
+		}
+		else if( minutesLeft > 0 ){
+			timeLeftLabel.text = "\(MinutesLeftString):\(secondsLeftString)"
+		}
+		else{
+			timeLeftLabel.text = "\(secondsLeftString)"
+		}
+		
+		if( incrementMinutes < 1 ){
+			timeLeftLabel.text = ""
+		}
+	
 		if incrementMinutes > 0 { incrementMinutes -= 1 }
 		
 	}
@@ -139,6 +157,8 @@ class ViewController: UIViewController {
 			NSLog("> START | %@", location.y)
 		}
 		
+		timeLeftLabel.textColor = UIColor.redColor()
+		
 	}
 	
 	override func touchesMoved(touches: NSSet, withEvent event: UIEvent)
@@ -160,6 +180,8 @@ class ViewController: UIViewController {
 			timeUpdate()
 			lineUpdate()
 		}
+		
+		timeLeftLabel.textColor = UIColor.redColor()
 	}
 	
 	override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
@@ -172,6 +194,8 @@ class ViewController: UIViewController {
 			timeLeftLabel.textColor = UIColor.redColor()
 			alarmSetup()
 		}
+		
+		timeLeftLabel.textColor = UIColor.whiteColor()
 		
 		timeUpdate()
 		lineUpdate()
