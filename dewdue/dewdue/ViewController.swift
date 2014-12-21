@@ -72,7 +72,14 @@ class ViewController: UIViewController {
 		
 		timeThen = calendar.components(.CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond , fromDate: dateFuture)
 		
-		timeTargetLabel.text = "\(timeThen.hour):\(timeThen.minute):\(timeThen.second)"
+		
+		var timeThenSecondsString = "\(timeThen.second)"
+		if( timeThen.second < 10 ){ timeThenSecondsString = "0\(timeThen.second)" }
+		
+		var timeThenMinutesString = "\(timeThen.minute)"
+		if( timeThen.minute < 10 ){ timeThenMinutesString = "0\(timeThen.minute)" }
+		
+		timeTargetLabel.text = "\(timeThen.hour):\(timeThenMinutesString):\(timeThenSecondsString)"
 		
 		let hoursLeft = incrementMinutes/60/60
 		let minutesLeft = (incrementMinutes/60) - (60*hoursLeft)
