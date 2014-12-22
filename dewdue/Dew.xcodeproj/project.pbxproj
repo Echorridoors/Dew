@@ -17,6 +17,10 @@
 		03B968F319940BCE007007E5 /* tile.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 03B968F219940BCE007007E5 /* tile.1.png */; };
 		03B968F519940C27007007E5 /* tile.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 03B968F419940C27007007E5 /* tile.2.png */; };
 		03B968F719940CDE007007E5 /* tile.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 03B968F619940CDE007007E5 /* tile.3.png */; };
+		03F568131A48703100B792A6 /* alarm_tone.wav in Resources */ = {isa = PBXBuildFile; fileRef = 03F568121A48703100B792A6 /* alarm_tone.wav */; };
+		03F5681D1A48765600B792A6 /* icon.1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 03F5681A1A48765600B792A6 /* icon.1024.png */; };
+		03F5681E1A48765600B792A6 /* icon.180.png in Resources */ = {isa = PBXBuildFile; fileRef = 03F5681B1A48765600B792A6 /* icon.180.png */; };
+		03F5681F1A48765600B792A6 /* icon.120.png in Resources */ = {isa = PBXBuildFile; fileRef = 03F5681C1A48765600B792A6 /* icon.120.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +48,10 @@
 		03B968F219940BCE007007E5 /* tile.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tile.1.png; sourceTree = "<group>"; };
 		03B968F419940C27007007E5 /* tile.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tile.2.png; sourceTree = "<group>"; };
 		03B968F619940CDE007007E5 /* tile.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tile.3.png; sourceTree = "<group>"; };
+		03F568121A48703100B792A6 /* alarm_tone.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_tone.wav; sourceTree = "<group>"; };
+		03F5681A1A48765600B792A6 /* icon.1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.1024.png; sourceTree = "<group>"; };
+		03F5681B1A48765600B792A6 /* icon.180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.180.png; sourceTree = "<group>"; };
+		03F5681C1A48765600B792A6 /* icon.120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.120.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +93,10 @@
 		03AFB36E1992A84300A4B773 /* dewdue */ = {
 			isa = PBXGroup;
 			children = (
+				03F5681A1A48765600B792A6 /* icon.1024.png */,
+				03F5681B1A48765600B792A6 /* icon.180.png */,
+				03F5681C1A48765600B792A6 /* icon.120.png */,
+				03F568121A48703100B792A6 /* alarm_tone.wav */,
 				0323846219996D04004EB4C3 /* test2.wav */,
 				03183D241999459B00FBBDBE /* test.mp3 */,
 				03B968F619940CDE007007E5 /* tile.3.png */,
@@ -206,11 +218,15 @@
 			files = (
 				0323846319996D04004EB4C3 /* test2.wav in Resources */,
 				03B968F319940BCE007007E5 /* tile.1.png in Resources */,
+				03F5681D1A48765600B792A6 /* icon.1024.png in Resources */,
 				03AFB3771992A84300A4B773 /* Main.storyboard in Resources */,
 				03183D251999459B00FBBDBE /* test.mp3 in Resources */,
+				03F568131A48703100B792A6 /* alarm_tone.wav in Resources */,
 				03AFB3791992A84300A4B773 /* Images.xcassets in Resources */,
 				03B968F719940CDE007007E5 /* tile.3.png in Resources */,
 				03B968F519940C27007007E5 /* tile.2.png in Resources */,
+				03F5681E1A48765600B792A6 /* icon.180.png in Resources */,
+				03F5681F1A48765600B792A6 /* icon.120.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

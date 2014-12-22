@@ -338,8 +338,18 @@ class ViewController: UIViewController {
 		localNotification.alertBody = "∆ Good Mourning"
 		let test:NSTimeInterval = NSTimeInterval(incrementMinutes)
 		localNotification.fireDate = NSDate(timeIntervalSinceNow: test)
-		localNotification.soundName = "test2.wav"
+		localNotification.soundName = "alarm_tone.wav"
 		UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+		
+		self.alarmLabel.text = "ALARM SET"
+		self.alarmLabel.alpha = 1
+		
+		UIView.animateWithDuration(1.0, delay: 1.5, options: .CurveEaseOut, animations: {
+			self.alarmLabel.alpha = 0
+			}, completion: { finished in
+			println("Basket doors opened!")
+		  })
+		
 	}
 	
 	// MARK: - Misc
