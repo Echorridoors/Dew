@@ -335,7 +335,7 @@ class ViewController: UIViewController {
 		
 		var localNotification:UILocalNotification = UILocalNotification()
 		localNotification.alertAction = "turn off the alarm"
-		localNotification.alertBody = "∆ Good Mourning"
+		localNotification.alertBody = "◎"
 		let test:NSTimeInterval = NSTimeInterval(incrementMinutes)
 		localNotification.fireDate = NSDate(timeIntervalSinceNow: test)
 		localNotification.soundName = "alarm_tone.wav"
@@ -344,12 +344,7 @@ class ViewController: UIViewController {
 		self.alarmLabel.text = "ALARM SET"
 		self.alarmLabel.alpha = 1
 		
-		UIView.animateWithDuration(1.0, delay: 1.5, options: .CurveEaseOut, animations: {
-			self.alarmLabel.alpha = 0
-			}, completion: { finished in
-			println("Basket doors opened!")
-		  })
-		
+		UIView.animateWithDuration(1.0, delay: 1.5, options: .CurveEaseOut, animations: { self.alarmLabel.alpha = 0 }, completion: { finished in println("") })
 	}
 	
 	// MARK: - Misc
