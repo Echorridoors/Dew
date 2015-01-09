@@ -164,8 +164,8 @@ class ViewController: UIViewController {
 	
 	// MARK: - Touch
 	
-	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-		
+	override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
+	{
 		for touch: AnyObject in touches {
 			let location = touch.locationInView(gridView)
 			touchStart = location.y
@@ -187,8 +187,6 @@ class ViewController: UIViewController {
 		{
 			let location = touch.locationInView(gridView)
 			var incrementStep = abs(touchStart - location.y)
-
-			NSLog("%@",incrementStep)
 			
 			if touchStart > location.y { incrementMinutes += Int(incrementStep) }
 			else{ incrementMinutes -= Int(incrementStep) }
@@ -295,7 +293,6 @@ class ViewController: UIViewController {
 	
 	func lineInbetweensDraw()
 	{
-		
 		for view in gridView.subviews {
 			if view.tag != 100 { continue }
 			view.removeFromSuperview()
@@ -313,6 +310,35 @@ class ViewController: UIViewController {
 			self.gridView.addSubview(lineView)
 			i = i + 1
 		}
+		
+		// If it goes over midnight
+		if( numberOfLines < 0 ){
+			
+			// Draw lines to the top
+			var limitLines = (24-CGFloat(timeNow.hour)) * templateLineSpacing * 4
+			
+			
+			// Lines above
+			var i = 0
+			while i < Int(limitLines)
+			{
+//				println("Limit: \(limitLines) \(i)")
+				
+				let positionY = ((limitLines)) - ( CGFloat(1+i) * templateLineSpacing)
+				
+				var lineView = UIView(frame: CGRectMake(0.0, positionY, screenWidth-(2*tileSize), 1))
+				lineView.backgroundColor = UIColor.whiteColor()
+				lineView.tag = 100
+				if( positionY > -1 * templateLineSpacing ){
+					self.gridView.addSubview(lineView)
+				}
+				
+				i += 1
+			}
+			
+			
+		}
+		
 	}
 	
 	func touchValuePerc(nowVal: Float,maxVal: Float) -> Float
