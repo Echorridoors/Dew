@@ -145,7 +145,7 @@ class ViewController: UIViewController {
 	
 	func templateGrid()
 	{
-		var i = 0
+		var i = 1
 		while i < 24*4
 		{
 			var lineView = UIView(frame: CGRectMake(0, (templateLineSpacing * CGFloat(i)), screenWidth-(2*tileSize)+1, 1))
@@ -314,29 +314,39 @@ class ViewController: UIViewController {
 		// If it goes over midnight
 		if( numberOfLines < 0 ){
 			
-			// Draw lines to the top
-			var limitLines = (24-CGFloat(timeNow.hour)) * templateLineSpacing * 4
-			
-			
 			// Lines above
+			var limitLines = (24-CGFloat(timeNow.hour)) * templateLineSpacing * 4
 			var i = 0
 			while i < Int(limitLines)
 			{
-//				println("Limit: \(limitLines) \(i)")
-				
 				let positionY = ((limitLines)) - ( CGFloat(1+i) * templateLineSpacing)
 				
 				var lineView = UIView(frame: CGRectMake(0.0, positionY, screenWidth-(2*tileSize), 1))
 				lineView.backgroundColor = UIColor.whiteColor()
 				lineView.tag = 100
-				if( positionY > -1 * templateLineSpacing ){
+				if( positionY > (-1 * templateLineSpacing) + templateLineSpacing ){
 					self.gridView.addSubview(lineView)
 				}
 				
 				i += 1
 			}
 			
-			
+			// Lines below
+			limitLines = (24 * 4 ) - ( (24-CGFloat(timeThen.hour)) * 4 )
+			i = 0
+			while i < Int(24*4)
+			{
+				let positionY = ((24*4*templateLineSpacing)) - ( CGFloat(1+i) * templateLineSpacing)
+				
+				var lineView = UIView(frame: CGRectMake(0.0, positionY, screenWidth-(2*tileSize), 1))
+				lineView.backgroundColor = UIColor.whiteColor()
+				lineView.tag = 100
+				if( positionY > pointTarget.frame.origin.y ){
+					self.gridView.addSubview(lineView)
+				}
+				
+				i += 1
+			}
 		}
 		
 	}
@@ -361,7 +371,12 @@ class ViewController: UIViewController {
 		
 		var localNotification:UILocalNotification = UILocalNotification()
 		localNotification.alertAction = "turn off the alarm"
-		localNotification.alertBody = "◎"
+		if( incrementMinutes % 2 == 0){
+			localNotification.alertBody = "◉"
+		}
+		else{
+			localNotification.alertBody = "◎"
+		}
 		let test:NSTimeInterval = NSTimeInterval(incrementMinutes)
 		localNotification.fireDate = NSDate(timeIntervalSinceNow: test)
 		localNotification.soundName = "alarm_tone.wav"
@@ -370,7 +385,7 @@ class ViewController: UIViewController {
 		self.alarmLabel.text = "ALARM SET"
 		self.alarmLabel.alpha = 1
 		
-		UIView.animateWithDuration(1.0, delay: 1.5, options: .CurveEaseOut, animations: { self.alarmLabel.alpha = 0 }, completion: { finished in println("") })
+		UIView.animateWithDuration(1.0, delay: 1.5, options: .CurveEaseOut, animations: { self.alarmLabel.alpha = 0 }, completion: { finished in println() })
 	}
 	
 	// MARK: - Misc
