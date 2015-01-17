@@ -105,7 +105,8 @@ class ViewController: UIViewController {
 		}
 	
 		if incrementMinutes > 0 { incrementMinutes -= 1 }
-		
+        
+        incrementMinutes = incrementMinutes % 86400
 	}
 	
 	func timeIncrementSmall()
@@ -166,6 +167,10 @@ class ViewController: UIViewController {
 	
 	override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
 	{
+        if(( timerTouch ) != nil){
+            timerTouch.invalidate()
+        }
+        
 		for touch: AnyObject in touches {
 			let location = touch.locationInView(gridView)
 			touchStart = location.y
@@ -182,7 +187,9 @@ class ViewController: UIViewController {
 	
 	override func touchesMoved(touches: NSSet, withEvent event: UIEvent)
 	{
-		timerTouch.invalidate()
+        timerTouch.invalidate()
+        timerTouch.invalidate()
+        
 		for touch: AnyObject in touches
 		{
 			let location = touch.locationInView(gridView)
@@ -204,7 +211,8 @@ class ViewController: UIViewController {
 	
 	override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
 	{
-		timerTouch.invalidate()
+        timerTouch.invalidate()
+        timerTouch.invalidate()
 		
 		if incrementMinutes > 0
 		{
@@ -316,6 +324,12 @@ class ViewController: UIViewController {
 			
 			// Lines above
 			var limitLines = (24-CGFloat(timeNow.hour)) * templateLineSpacing * 4
+            
+//            if timeNow.minute > 44 { limitLines = limitLines * 3 }
+//            else if timeNow.minute > 29 { limitLines = limitLines * 2  }
+//            else if timeNow.minute > 14 { limitLines = limitLines * 1  }
+//            else { limitLines = limitLines * 4  }
+            
 			var i = 0
 			while i < Int(limitLines)
 			{
