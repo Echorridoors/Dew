@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		03183D251999459B00FBBDBE /* test.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 03183D241999459B00FBBDBE /* test.mp3 */; };
-		0323846319996D04004EB4C3 /* test2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0323846219996D04004EB4C3 /* test2.wav */; };
 		03AFB3721992A84300A4B773 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03AFB3711992A84300A4B773 /* AppDelegate.swift */; };
 		03AFB3741992A84300A4B773 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03AFB3731992A84300A4B773 /* ViewController.swift */; };
 		03AFB3771992A84300A4B773 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03AFB3751992A84300A4B773 /* Main.storyboard */; };
@@ -18,9 +16,11 @@
 		03B968F519940C27007007E5 /* tile.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 03B968F419940C27007007E5 /* tile.2.png */; };
 		03B968F719940CDE007007E5 /* tile.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 03B968F619940CDE007007E5 /* tile.3.png */; };
 		03F568131A48703100B792A6 /* alarm_tone.wav in Resources */ = {isa = PBXBuildFile; fileRef = 03F568121A48703100B792A6 /* alarm_tone.wav */; };
-		03F568231A4884D100B792A6 /* icon.1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 03F568201A4884D100B792A6 /* icon.1024.png */; };
-		03F568241A4884D100B792A6 /* icon.180.png in Resources */ = {isa = PBXBuildFile; fileRef = 03F568211A4884D100B792A6 /* icon.180.png */; };
-		03F568251A4884D100B792A6 /* icon.120.png in Resources */ = {isa = PBXBuildFile; fileRef = 03F568221A4884D100B792A6 /* icon.120.png */; };
+		572D723C1A72925100B504DD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 572D723B1A72925100B504DD /* AVFoundation.framework */; };
+		572D72421A72944A00B504DD /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 572D72411A72944A00B504DD /* AudioToolbox.framework */; };
+		572D72471A7297FB00B504DD /* audio.release.wav in Resources */ = {isa = PBXBuildFile; fileRef = 572D72451A7297FB00B504DD /* audio.release.wav */; };
+		572D72481A7297FB00B504DD /* audio.touch.wav in Resources */ = {isa = PBXBuildFile; fileRef = 572D72461A7297FB00B504DD /* audio.touch.wav */; };
+		572D724A1A7299CB00B504DD /* audio.bar.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 572D72491A7299CB00B504DD /* audio.bar.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,8 +34,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		03183D241999459B00FBBDBE /* test.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = test.mp3; sourceTree = "<group>"; };
-		0323846219996D04004EB4C3 /* test2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = test2.wav; sourceTree = "<group>"; };
 		03AFB36C1992A84300A4B773 /* Dew.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dew.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		03AFB3701992A84300A4B773 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03AFB3711992A84300A4B773 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -49,9 +47,11 @@
 		03B968F419940C27007007E5 /* tile.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tile.2.png; sourceTree = "<group>"; };
 		03B968F619940CDE007007E5 /* tile.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tile.3.png; sourceTree = "<group>"; };
 		03F568121A48703100B792A6 /* alarm_tone.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_tone.wav; sourceTree = "<group>"; };
-		03F568201A4884D100B792A6 /* icon.1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.1024.png; sourceTree = "<group>"; };
-		03F568211A4884D100B792A6 /* icon.180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.180.png; sourceTree = "<group>"; };
-		03F568221A4884D100B792A6 /* icon.120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.120.png; sourceTree = "<group>"; };
+		572D723B1A72925100B504DD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		572D72411A72944A00B504DD /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		572D72451A7297FB00B504DD /* audio.release.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio.release.wav; sourceTree = "<group>"; };
+		572D72461A7297FB00B504DD /* audio.touch.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio.touch.wav; sourceTree = "<group>"; };
+		572D72491A7299CB00B504DD /* audio.bar.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = audio.bar.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +59,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				572D72421A72944A00B504DD /* AudioToolbox.framework in Frameworks */,
+				572D723C1A72925100B504DD /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +77,8 @@
 		03AFB3631992A84300A4B773 = {
 			isa = PBXGroup;
 			children = (
+				572D72411A72944A00B504DD /* AudioToolbox.framework */,
+				572D723B1A72925100B504DD /* AVFoundation.framework */,
 				03AFB36E1992A84300A4B773 /* dewdue */,
 				03AFB3811992A84300A4B773 /* dewdueTests */,
 				03AFB36D1992A84300A4B773 /* Products */,
@@ -93,12 +97,10 @@
 		03AFB36E1992A84300A4B773 /* dewdue */ = {
 			isa = PBXGroup;
 			children = (
-				03F568201A4884D100B792A6 /* icon.1024.png */,
-				03F568211A4884D100B792A6 /* icon.180.png */,
-				03F568221A4884D100B792A6 /* icon.120.png */,
+				572D72491A7299CB00B504DD /* audio.bar.mp3 */,
+				572D72451A7297FB00B504DD /* audio.release.wav */,
+				572D72461A7297FB00B504DD /* audio.touch.wav */,
 				03F568121A48703100B792A6 /* alarm_tone.wav */,
-				0323846219996D04004EB4C3 /* test2.wav */,
-				03183D241999459B00FBBDBE /* test.mp3 */,
 				03B968F619940CDE007007E5 /* tile.3.png */,
 				03B968F419940C27007007E5 /* tile.2.png */,
 				03B968F219940BCE007007E5 /* tile.1.png */,
@@ -218,17 +220,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0323846319996D04004EB4C3 /* test2.wav in Resources */,
 				03B968F319940BCE007007E5 /* tile.1.png in Resources */,
-				03F568231A4884D100B792A6 /* icon.1024.png in Resources */,
 				03AFB3771992A84300A4B773 /* Main.storyboard in Resources */,
-				03183D251999459B00FBBDBE /* test.mp3 in Resources */,
 				03F568131A48703100B792A6 /* alarm_tone.wav in Resources */,
+				572D72471A7297FB00B504DD /* audio.release.wav in Resources */,
 				03AFB3791992A84300A4B773 /* Images.xcassets in Resources */,
 				03B968F719940CDE007007E5 /* tile.3.png in Resources */,
+				572D72481A7297FB00B504DD /* audio.touch.wav in Resources */,
+				572D724A1A7299CB00B504DD /* audio.bar.mp3 in Resources */,
 				03B968F519940C27007007E5 /* tile.2.png in Resources */,
-				03F568241A4884D100B792A6 /* icon.180.png in Resources */,
-				03F568251A4884D100B792A6 /* icon.120.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

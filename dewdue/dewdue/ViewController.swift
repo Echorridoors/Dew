@@ -8,6 +8,7 @@
 
 import UIKit
 import Foundation
+import AVFoundation
 
 class ViewController: UIViewController {
                             
@@ -18,6 +19,9 @@ class ViewController: UIViewController {
 	@IBOutlet var pointNow: UIView!
 	@IBOutlet var pointTarget: UIView!
 	@IBOutlet var alarmLabel: UILabel!
+    
+    @IBOutlet weak var markerNow: UIView!
+    @IBOutlet weak var markerTarget: UIView!
 	
 	var tileSize:CGFloat = 0.0
 	var screenWidth:CGFloat = 0.0
@@ -32,6 +36,12 @@ class ViewController: UIViewController {
 	var timeThen: NSDateComponents!
 	
 	var timerTouch:NSTimer!
+    
+    var touchSound:SystemSoundID?
+    var releaseSound:SystemSoundID?
+    var barSound:SystemSoundID?
+    
+    var lastLineCount:Float = 0.0
 	
 	// MARK: - Init
 	
@@ -52,7 +62,11 @@ class ViewController: UIViewController {
 	// MARK: - Time
 	
 	func timeStart()
-	{
+    {
+        touchSound = createTouchSound()
+        releaseSound = createReleaseSound()
+        barSound = createBarSound()
+        
 		timeUpdate()
 		var timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("timeStep"), userInfo: nil, repeats: true)
 	}
@@ -146,10 +160,12 @@ class ViewController: UIViewController {
 	
 	func templateGrid()
 	{
-		var i = 1
+        var i = 1
 		while i < 24*4
 		{
-			var lineView = UIView(frame: CGRectMake(0, (templateLineSpacing * CGFloat(i)), screenWidth-(2*tileSize)+1, 1))
+            let targetFrame:CGRect = CGRectMake(0, (templateLineSpacing * CGFloat(i)), screenWidth-(2*tileSize)+1, 1)
+            let initFrame:CGRect = CGRectMake(0, (templateLineSpacing * CGFloat(i)), 0, 1)
+			var lineView = UIView(frame: initFrame)
 			
 			if i == 0 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")!).colorWithAlphaComponent(0.5) }
 			else if i % 24 == 0 { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.3.png")!).colorWithAlphaComponent(0.5) }
@@ -157,16 +173,28 @@ class ViewController: UIViewController {
 			else { lineView.backgroundColor = UIColor(patternImage:UIImage(named:"tile.1.png")!).colorWithAlphaComponent(0.5) }
 			
 			self.gridView.addSubview(lineView)
-			
+            
+            
+            let duration = 0.5
+            let delay:NSTimeInterval = (0.01 * Double(i))
+            let options = UIViewAnimationOptions.CurveEaseInOut
+            
+            UIView.animateWithDuration(duration, delay: delay, options: options, animations: {
+                // any changes entered in this block will be animated
+                lineView.frame = targetFrame
+            }, completion: nil)
+
 			i = i + 1
 		}
 		
 	}
-	
+    
 	// MARK: - Touch
 	
 	override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
 	{
+        AudioServicesPlaySystemSound(touchSound!)
+        
         if(( timerTouch ) != nil){
             timerTouch.invalidate()
         }
@@ -182,7 +210,6 @@ class ViewController: UIViewController {
 		timeIncrementSmall()
 		
 		timeLeftLabel.textColor = UIColor.grayColor()
-		
 	}
 	
 	override func touchesMoved(touches: NSSet, withEvent event: UIEvent)
@@ -210,7 +237,9 @@ class ViewController: UIViewController {
 	}
 	
 	override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
-	{
+    {
+        AudioServicesPlaySystemSound(releaseSound!)
+        
         timerTouch.invalidate()
         timerTouch.invalidate()
 		
@@ -222,8 +251,33 @@ class ViewController: UIViewController {
 		timeLeftLabel.textColor = UIColor.whiteColor()
 		
 		timeUpdate()
-		lineUpdate()
+        lineUpdate()
 	}
+    
+    // MARK: Sounds
+    
+    func createTouchSound() -> SystemSoundID {
+        var soundID: SystemSoundID = 0
+        let soundURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(), "audio.touch", "wav", nil)
+        AudioServicesCreateSystemSoundID(soundURL, &soundID)
+        return soundID
+    }
+    
+    func createReleaseSound() -> SystemSoundID {
+        var soundID: SystemSoundID = 1
+        let soundURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(), "audio.release", "wav", nil)
+        AudioServicesCreateSystemSoundID(soundURL, &soundID)
+        return soundID
+    }
+    
+    func createBarSound() -> SystemSoundID {
+        var soundID: SystemSoundID = 0
+        let soundURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(), "audio.bar", "mp3", nil)
+        AudioServicesCreateSystemSoundID(soundURL, &soundID)
+        return soundID
+    }
+    
+    // MARK: Misc
 	
 	func lineUpdate()
 	{
@@ -269,8 +323,13 @@ class ViewController: UIViewController {
 		if lineWidth < 2 {
 			lineWidth = 1
 		}
+        
+        lineOrigin = CGFloat(Int(lineOrigin))
 
 		pointNow.frame = CGRectMake(lineOrigin, positionY,lineWidth , 1)
+        
+        markerNow.backgroundColor = UIColor.grayColor()
+        markerNow.frame = CGRectMake(tileSize * 0.75 * -1, positionY, tileSize/2, 1)
 	}
 	
 	func lineThenDraw()
@@ -296,7 +355,9 @@ class ViewController: UIViewController {
 		{
 			pointTarget.hidden = true
 		}
-		
+        
+        markerTarget.backgroundColor = UIColor.grayColor()
+        markerTarget.frame = CGRectMake(tileSize * 0.75 * -1, positionY, tileSize/2, 1)
 	}
 	
 	func lineInbetweensDraw()
@@ -318,6 +379,12 @@ class ViewController: UIViewController {
 			self.gridView.addSubview(lineView)
 			i = i + 1
 		}
+        
+        if( Float(numberOfLines) != Float(lastLineCount) ){
+            AudioServicesPlaySystemSound(barSound!)
+        }
+        
+        lastLineCount = Float(numberOfLines)
 		
 		// If it goes over midnight
 		if( numberOfLines < 0 ){

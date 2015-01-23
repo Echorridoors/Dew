@@ -41,6 +41,16 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" id="CM8-ZP-TVQ" userLabel="markerNow">
+                                        <rect key="frame" x="80" y="142" width="160" height="284"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" id="GRS-bL-edK" userLabel="markerTarget">
+                                        <rect key="frame" x="80" y="142" width="160" height="284"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
                                     <view contentMode="scaleToFill" id="lIc-zr-1dq" userLabel="pointNow">
                                         <rect key="frame" x="80" y="142" width="160" height="284"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -59,6 +69,8 @@
                     <connections>
                         <outlet property="alarmLabel" destination="HU2-8x-rJe" id="zcq-GJ-2LZ"/>
                         <outlet property="gridView" destination="DRJ-s5-Tca" id="reh-AE-rsC"/>
+                        <outlet property="markerNow" destination="CM8-ZP-TVQ" id="H6A-1c-ddF"/>
+                        <outlet property="markerTarget" destination="GRS-bL-edK" id="lU1-PS-dGe"/>
                         <outlet property="pointNow" destination="lIc-zr-1dq" id="h5V-Kh-ply"/>
                         <outlet property="pointTarget" destination="2Ei-mh-OTu" id="OGO-42-sf8"/>
                         <outlet property="timeLeftLabel" destination="vm9-we-NtS" id="zy3-5j-5GF"/>
