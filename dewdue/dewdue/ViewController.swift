@@ -37,7 +37,7 @@ class ViewController: UIViewController {
 	
 	var timerTouch:NSTimer!
     
-    var touchSound:SystemSoundID?
+    var touchSound:SystemSoundID = createTouchSound()
     var releaseSound:SystemSoundID?
     var barSound:SystemSoundID?
     
