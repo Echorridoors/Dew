@@ -21,6 +21,10 @@
 		572D72471A7297FB00B504DD /* audio.release.wav in Resources */ = {isa = PBXBuildFile; fileRef = 572D72451A7297FB00B504DD /* audio.release.wav */; };
 		572D72481A7297FB00B504DD /* audio.touch.wav in Resources */ = {isa = PBXBuildFile; fileRef = 572D72461A7297FB00B504DD /* audio.touch.wav */; };
 		572D724A1A7299CB00B504DD /* audio.bar.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 572D72491A7299CB00B504DD /* audio.bar.mp3 */; };
+		57D6AE851AFF83E900D1BEFA /* segueFade.m in Sources */ = {isa = PBXBuildFile; fileRef = 57D6AE801AFF83E900D1BEFA /* segueFade.m */; };
+		57D6AE861AFF83E900D1BEFA /* splash.logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 57D6AE811AFF83E900D1BEFA /* splash.logo.png */; };
+		57D6AE871AFF83E900D1BEFA /* splash.tune.wav in Resources */ = {isa = PBXBuildFile; fileRef = 57D6AE821AFF83E900D1BEFA /* splash.tune.wav */; };
+		57D6AE881AFF83E900D1BEFA /* xxiivvSplash.m in Sources */ = {isa = PBXBuildFile; fileRef = 57D6AE841AFF83E900D1BEFA /* xxiivvSplash.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +56,12 @@
 		572D72451A7297FB00B504DD /* audio.release.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio.release.wav; sourceTree = "<group>"; };
 		572D72461A7297FB00B504DD /* audio.touch.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio.touch.wav; sourceTree = "<group>"; };
 		572D72491A7299CB00B504DD /* audio.bar.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = audio.bar.mp3; sourceTree = "<group>"; };
+		57D6AE7F1AFF83E900D1BEFA /* segueFade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = segueFade.h; sourceTree = "<group>"; };
+		57D6AE801AFF83E900D1BEFA /* segueFade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = segueFade.m; sourceTree = "<group>"; };
+		57D6AE811AFF83E900D1BEFA /* splash.logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash.logo.png; sourceTree = "<group>"; };
+		57D6AE821AFF83E900D1BEFA /* splash.tune.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = splash.tune.wav; sourceTree = "<group>"; };
+		57D6AE831AFF83E900D1BEFA /* xxiivvSplash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xxiivvSplash.h; sourceTree = "<group>"; };
+		57D6AE841AFF83E900D1BEFA /* xxiivvSplash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = xxiivvSplash.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +107,7 @@
 		03AFB36E1992A84300A4B773 /* dewdue */ = {
 			isa = PBXGroup;
 			children = (
+				57D6AE7E1AFF836E00D1BEFA /* Splash */,
 				572D72491A7299CB00B504DD /* audio.bar.mp3 */,
 				572D72451A7297FB00B504DD /* audio.release.wav */,
 				572D72461A7297FB00B504DD /* audio.touch.wav */,
@@ -136,6 +147,19 @@
 				03AFB3831992A84300A4B773 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		57D6AE7E1AFF836E00D1BEFA /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				57D6AE7F1AFF83E900D1BEFA /* segueFade.h */,
+				57D6AE801AFF83E900D1BEFA /* segueFade.m */,
+				57D6AE811AFF83E900D1BEFA /* splash.logo.png */,
+				57D6AE821AFF83E900D1BEFA /* splash.tune.wav */,
+				57D6AE831AFF83E900D1BEFA /* xxiivvSplash.h */,
+				57D6AE841AFF83E900D1BEFA /* xxiivvSplash.m */,
+			);
+			name = Splash;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -222,6 +246,8 @@
 			files = (
 				03B968F319940BCE007007E5 /* tile.1.png in Resources */,
 				03AFB3771992A84300A4B773 /* Main.storyboard in Resources */,
+				57D6AE861AFF83E900D1BEFA /* splash.logo.png in Resources */,
+				57D6AE871AFF83E900D1BEFA /* splash.tune.wav in Resources */,
 				03F568131A48703100B792A6 /* alarm_tone.wav in Resources */,
 				572D72471A7297FB00B504DD /* audio.release.wav in Resources */,
 				03AFB3791992A84300A4B773 /* Images.xcassets in Resources */,
@@ -247,6 +273,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				03AFB3741992A84300A4B773 /* ViewController.swift in Sources */,
+				57D6AE851AFF83E900D1BEFA /* segueFade.m in Sources */,
+				57D6AE881AFF83E900D1BEFA /* xxiivvSplash.m in Sources */,
 				03AFB3721992A84300A4B773 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

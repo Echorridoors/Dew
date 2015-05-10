@@ -37,7 +37,7 @@ class ViewController: UIViewController {
 	
 	var timerTouch:NSTimer!
     
-    var touchSound:SystemSoundID = createTouchSound()
+    var touchSound:SystemSoundID = 0
     var releaseSound:SystemSoundID?
     var barSound:SystemSoundID?
     
@@ -155,7 +155,7 @@ class ViewController: UIViewController {
 		timeTargetLabel.frame = CGRectMake(tileSize, 0, screenWidth-(2*tileSize), tileSize)
 		alarmLabel.frame = CGRectMake(tileSize, 0, screenWidth-(2*tileSize), tileSize)
 		
-		templateGrid()
+		NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("templateGrid"), userInfo: nil, repeats: false)
 	}
 	
 	func templateGrid()
@@ -177,7 +177,7 @@ class ViewController: UIViewController {
             
             let duration = 0.5
             let delay:NSTimeInterval = (0.01 * Double(i))
-            let options = UIViewAnimationOptions.CurveEaseInOut
+            let options = UIViewAnimationOptions.CurveLinear
             
             UIView.animateWithDuration(duration, delay: delay, options: options, animations: {
                 // any changes entered in this block will be animated
@@ -191,9 +191,9 @@ class ViewController: UIViewController {
     
 	// MARK: - Touch
 	
-	override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
+	override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent)
 	{
-        AudioServicesPlaySystemSound(touchSound!)
+        AudioServicesPlaySystemSound(touchSound)
         
         if(( timerTouch ) != nil){
             timerTouch.invalidate()
@@ -212,7 +212,7 @@ class ViewController: UIViewController {
 		timeLeftLabel.textColor = UIColor.grayColor()
 	}
 	
-	override func touchesMoved(touches: NSSet, withEvent event: UIEvent)
+	override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent)
 	{
         timerTouch.invalidate()
         timerTouch.invalidate()
@@ -236,7 +236,7 @@ class ViewController: UIViewController {
 		timeLeftLabel.textColor = UIColor.grayColor()
 	}
 	
-	override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
+	override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent)
     {
         AudioServicesPlaySystemSound(releaseSound!)
         
