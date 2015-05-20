@@ -202,7 +202,6 @@ class ViewController: UIViewController {
 		for touch: AnyObject in touches {
 			let location = touch.locationInView(gridView)
 			touchStart = location.y
-			NSLog("> START | %@", location.y)
 		}
 		
 		timerTouch = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: Selector("timeIncrementSmall"), userInfo: nil, repeats: true)
