@@ -206,12 +206,13 @@
 		03AFB3641992A84300A4B773 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = XXIIVV;
 				TargetAttributes = {
 					03AFB36B1992A84300A4B773 = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = B948MFAE5C;
+						DevelopmentTeam = K3424999L6;
 					};
 					03AFB37D1992A84300A4B773 = {
 						CreatedOnToolsVersion = 6.0;
